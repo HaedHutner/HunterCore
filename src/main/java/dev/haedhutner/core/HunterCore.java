@@ -5,7 +5,6 @@ import dev.haedhutner.core.command.CommandService;
 import dev.haedhutner.core.db.DatabaseContext;
 import dev.haedhutner.core.event.HunterHibernateInitializedEvent;
 import dev.haedhutner.core.serialize.DurationTypeSerializer;
-import dev.haedhutner.core.template.TemplateEngine;
 import dev.haedhutner.core.utils.EntityUtils;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
@@ -53,8 +52,6 @@ public class HunterCore {
 
     private CoreConfig coreConfig;
 
-    private TemplateEngine templateEngine;
-
     private EconomyService economyService;
 
     private CombatLog combatLog;
@@ -64,7 +61,6 @@ public class HunterCore {
     @Listener(order = Order.FIRST)
     public void onPreInit(GamePreInitializationEvent event) {
         instance = this;
-        this.templateEngine = new TemplateEngine();
 
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Duration.class), new DurationTypeSerializer());
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Duration.class), new DurationTypeSerializer());
@@ -130,10 +126,6 @@ public class HunterCore {
 
     public static EntityManagerFactory getEntityManagerFactory() {
         return getDatabaseContext().getEntityManagerFactory();
-    }
-
-    public static TemplateEngine getTemplateEngine() {
-        return getInstance().templateEngine;
     }
 
     public static CombatLog getCombatLog() {
