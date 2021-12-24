@@ -5,8 +5,8 @@ plugins {
     id 'maven-publish'
 }
 
-group 'com.atherys'
-version '2.4'
+group 'dev.haedhutner'
+version '3.0'
 
 dependencies {
     compile 'org.hibernate:hibernate-core:5.3.7.Final'
