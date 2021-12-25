@@ -1,9 +1,13 @@
 package dev.haedhutner.core;
 
+import com.google.inject.Injector;
+import dev.haedhutner.chat.ChatModule;
 import dev.haedhutner.core.combat.CombatLog;
 import dev.haedhutner.core.command.CommandService;
 import dev.haedhutner.core.db.DatabaseContext;
 import dev.haedhutner.core.event.HunterHibernateInitializedEvent;
+import dev.haedhutner.core.module.ModuleEngine;
+import dev.haedhutner.core.module.ModuleRegistrationEvent;
 import dev.haedhutner.core.serialize.DurationTypeSerializer;
 import dev.haedhutner.core.utils.EntityUtils;
 import com.google.common.reflect.TypeToken;
@@ -26,7 +30,6 @@ import org.spongepowered.api.service.economy.EconomyService;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
-import java.io.IOException;
 import java.time.Duration;
 import java.util.Optional;
 
@@ -50,6 +53,9 @@ public class HunterCore {
     @Inject
     PluginContainer container;
 
+    @Inject
+    Injector injector;
+
     private CoreConfig coreConfig;
 
     private EconomyService economyService;
@@ -58,6 +64,8 @@ public class HunterCore {
 
     private DatabaseContext databaseContext;
 
+    private ModuleEngine coreModuleEngine;
+
     @Listener(order = Order.FIRST)
     public void onPreInit(GamePreInitializationEvent event) {
         instance = this;
@@ -65,12 +73,7 @@ public class HunterCore {
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Duration.class), new DurationTypeSerializer());
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Duration.class), new DurationTypeSerializer());
 
-        try {
-            coreConfig = new CoreConfig();
-            coreConfig.init();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        coreConfig.init();
 
         if (coreConfig.DB_ENABLED) {
             databaseContext = new DatabaseContext(coreConfig.JPA_CONFIG, logger);
@@ -81,14 +84,33 @@ public class HunterCore {
         this.combatLog = new CombatLog();
         combatLog.init();
 
+        coreModuleEngine = new ModuleEngine(logger);
+        coreModuleEngine.registerAndInitModules(coreConfig.MODULES);
+
         Sponge.getEventManager().post(new HunterHibernateInitializedEvent(databaseContext.getEntityManagerFactory()));
         init = true;
+    }
+
+    @Listener
+    public void onModuleRegistration(ModuleRegistrationEvent event) {
+        event.registerModule(new ChatModule(container), injector);
+    }
+
+    @Listener
+    public void onStarted(GameStartedServerEvent event) {
+        if (init) {
+            coreModuleEngine.startModules();
+        }
     }
 
     @Listener
     public void onStopped(GameStoppedServerEvent event) {
         if (init && coreConfig.DB_ENABLED) {
             databaseContext.close();
+        }
+
+        if (init) {
+            coreModuleEngine.stopModules();
         }
     }
 
@@ -106,10 +128,6 @@ public class HunterCore {
     @Listener
     public void onPlayerDeath(DestructEntityEvent.Death event, @Root Player attacker, @Getter("getTargetEntity") Player victim) {
         combatLog.endCombat(attacker, victim);
-    }
-
-    public static CommandService getCommandService() {
-        return CommandService.getInstance();
     }
 
     public Logger getLogger() {

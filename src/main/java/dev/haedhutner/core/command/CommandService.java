@@ -1,5 +1,6 @@
 package dev.haedhutner.core.command;
 
+import com.google.inject.Injector;
 import dev.haedhutner.core.command.annotation.*;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
@@ -19,14 +20,14 @@ import java.util.stream.Collectors;
 
 public final class CommandService {
 
-    private static CommandService instance = new CommandService();
+    private final Injector injector;
 
-    public static CommandService getInstance() {
-        return instance;
+    public CommandService(Injector injector) {
+        this.injector = injector;
     }
 
-    public <T extends CommandExecutor> void register(T executor, Object plugin)
-            throws AnnotatedCommandException {
+    public <T extends CommandExecutor> void register(T executor, Object plugin) throws AnnotatedCommandException {
+        injector.injectMembers(executor);
         Command command = buildCommandSpec(executor);
         Sponge.getCommandManager().register(plugin, command.getSpec(), command.getAliases());
     }
@@ -58,17 +59,19 @@ public final class CommandService {
                 throw AnnotatedCommandException.parentParameterizedCommand(commandClass);
             }
 
-            Class<? extends CommandExecutor>[] childCommandClasses = commandClass
-                    .getAnnotation(Children.class).value();
+            Class<? extends CommandExecutor>[] childCommandClasses = commandClass.getAnnotation(Children.class).value();
 
             for (Class<? extends CommandExecutor> child : childCommandClasses) {
                 Command childSpec;
                 // instantiate the child command
                 try {
-                    childSpec = buildCommandSpec(child.newInstance());
+                    CommandExecutor childExecutor = child.newInstance();
+                    injector.injectMembers(childExecutor);
+                    childSpec = buildCommandSpec(childExecutor);
                 } catch (InstantiationException | IllegalAccessException e) {
                     throw AnnotatedCommandException.childInstantiation(child);
                 }
+
                 spec.child(childSpec.getSpec(), childSpec.getAliases());
                 children.add(childSpec);
             }

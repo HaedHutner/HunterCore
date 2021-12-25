@@ -1,6 +1,6 @@
 package dev.haedhutner.core.module;
 
-import dev.haedhutner.core.HunterCore;
+import com.google.inject.Injector;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
@@ -16,8 +16,8 @@ public class ModuleRegistrationEvent implements Event {
         this.engine = engine;
     }
 
-    public void registerModule(Module module) {
-        engine.registerModule(module);
+    public void registerModule(PluginModule module, Injector injector) {
+        engine.registerModule(module, injector);
     }
 
     @Override

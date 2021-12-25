@@ -9,9 +9,14 @@ import ninja.leaping.configurate.objectmapping.ObjectMapper;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.objectmapping.Setting;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
+import org.spongepowered.api.plugin.PluginContainer;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * An abstract utility class for creating quick and simple configuration classes using an object
@@ -25,45 +30,17 @@ public abstract class PluginConfig {
 
     protected ConfigurationOptions options;
 
-    private boolean newFile = false;
+    private final Path filePath;
 
     /**
      * This constructor will load all serializable fields ( the ones marked with {@link Setting} and
      * {@link ConfigSerializable}, then attempt to create a HOCON file in the given directory with the
      * given name and a {@link HoconConfigurationLoader} from that file.
      *
-     * @param directory The directory where the config file will be saved.
-     * @param filename  The name of the config file.
-     * @throws IOException when either the file or the directory could not be created.
+     * @param filePath the path to the config file
      */
-    protected PluginConfig(String directory, String filename) throws IOException {
-
-        try {
-            this.configMapper = ObjectMapper.forObject(this);
-        } catch (ObjectMappingException e) {
-            e.printStackTrace();
-        }
-
-        File configFile = new File(directory + "/" + filename);
-
-        if (!configFile.exists()) {
-            if (configFile.getParentFile().exists() || configFile.getParentFile().mkdirs()) {
-                if (configFile.createNewFile()) {
-                    newFile = true;
-                } else {
-                    throw new IOException("Failed to create " + filename);
-                }
-            } else {
-                throw new IOException("Failed to create config directory " + directory);
-            }
-        }
-
-        this.options = getOptions();
-
-        this.loader = HoconConfigurationLoader.builder()
-                .setDefaultOptions(options)
-                .setPath(configFile.toPath())
-                .build();
+    protected PluginConfig(Path filePath) {
+        this.filePath = filePath;
     }
 
     /**
@@ -76,29 +53,17 @@ public abstract class PluginConfig {
     }
 
     /**
-     * Save the contents of the object mapper to the config file. This will override config values
-     * already-present in the file.
-     */
-    public void save() {
-        try {
-            SimpleConfigurationNode out = SimpleConfigurationNode.root();
-            this.configMapper.serialize(out);
-            this.loader.save(out);
-        } catch (ObjectMappingException | IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Populate the object mapper with the contents of the config file. This will override any default
      * values.
      */
-    public void load() {
+    public SimpleOperationResult load() {
         try {
             this.configMapper.populate(this.loader.load(options));
         } catch (ObjectMappingException | IOException e) {
-            e.printStackTrace();
+            return new SimpleOperationResult(false, e.getMessage(), e);
         }
+
+        return new SimpleOperationResult(true, null, null);
     }
 
     /**
@@ -106,11 +71,27 @@ public abstract class PluginConfig {
      * config file, overriding the defaults. If it did not, this will save to the file with the
      * default values provided.
      */
-    public void init() {
-        if (newFile) {
-            this.save();
-        } else {
-            this.load();
+    public SimpleOperationResult init() {
+        try {
+            Files.createDirectories(filePath.getParent());
+            Files.createFile(filePath);
+
+            this.options = getOptions();
+
+            this.loader = HoconConfigurationLoader.builder()
+                    .setDefaultOptions(options)
+                    .setPath(filePath)
+                    .build();
+
+            SimpleConfigurationNode out = SimpleConfigurationNode.root();
+            this.configMapper.serialize(out);
+            this.loader.save(out);
+        } catch (FileAlreadyExistsException e) {
+            return this.load();
+        } catch (ObjectMappingException | IOException e) {
+            return new SimpleOperationResult(false, e.getMessage(), e);
         }
+
+        return new SimpleOperationResult(true, null, null);
     }
 }

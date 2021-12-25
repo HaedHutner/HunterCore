@@ -1,37 +1,35 @@
 package dev.haedhutner.core.module;
 
-public class ModuleResult {
+import dev.haedhutner.core.utils.SimpleOperationResult;
 
-    private Exception exception;
+import java.util.function.Supplier;
 
-    private boolean success;
+public class ModuleResult extends SimpleOperationResult {
 
-    private String message;
+    private final PluginModule module;
 
-    public ModuleResult(boolean success, String message, Exception exception) {
-        this.success = success;
-        this.message = message;
-        this.exception = exception;
+    public static ModuleResult of(PluginModule module, Supplier<ModuleResult> supplier) {
+        try {
+            return supplier.get();
+        } catch (Exception e) {
+            return ModuleResult.failure(module, e.getMessage(), e);
+        }
     }
 
-    public Exception getException() {
-        return exception;
+    public static ModuleResult failure(PluginModule module, String message, Exception exception) {
+        return new ModuleResult(module, false, message, exception);
     }
 
-    public boolean isSuccess() {
-        return success;
+    public static ModuleResult success(PluginModule module, String message) {
+        return new ModuleResult(module, true, message, null);
     }
 
-    public String getMessage() {
-        return message;
+    public ModuleResult(PluginModule module, boolean success, String message, Exception exception) {
+        super(success, message, exception);
+        this.module = module;
     }
 
-    @Override
-    public String toString() {
-        return "ModuleResult{" +
-                "exception=" + exception +
-                ", success=" + success +
-                ", message='" + message + '\'' +
-                '}';
+    public PluginModule getModule() {
+        return module;
     }
 }
