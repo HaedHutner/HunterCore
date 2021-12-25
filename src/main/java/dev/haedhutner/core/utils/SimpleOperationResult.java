@@ -1,5 +1,7 @@
 package dev.haedhutner.core.utils;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import javax.annotation.Nullable;
 import java.util.Optional;
 
@@ -30,4 +32,14 @@ public class SimpleOperationResult {
         return Optional.ofNullable(exception);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(success ? "Operation Success: " : "Operation Failure: ");
+        builder.append(getMessage().orElse("Unknown\n"));
+        getException().ifPresent(e -> builder.append(ExceptionUtils.getStackTrace(e)));
+
+        return builder.toString();
+    }
 }

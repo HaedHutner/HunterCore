@@ -29,9 +29,4 @@ public class PartiesModule extends AbstractPluginModule {
     public ModuleResult stop() {
         return null;
     }
-
-    @Override
-    public ModuleConfiguration getConfiguration() {
-        return null;
-    }
 }

@@ -1,7 +1,6 @@
 package dev.haedhutner.core.module;
 
 import com.google.inject.Injector;
-import dev.haedhutner.core.module.config.ModulesConfiguration;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
@@ -24,7 +23,7 @@ public final class ModuleEngine {
         this.logger = logger;
     }
 
-    public Set<ModuleResult> registerAndInitModules(ModulesConfiguration configurations) {
+    public Set<ModuleResult> registerAndInitModules(Map<String, Boolean> configurations) {
         Event event = new ModuleRegistrationEvent(this);
         Sponge.getEventManager().post(event);
 
@@ -40,15 +39,13 @@ public final class ModuleEngine {
 
         logger.info("Skipping modules " + disabledModules + " because they are disabled");
 
-        return this.modules.stream()
-                .filter(pm -> !disabledModules.contains(pm.getId()))
+        this.modules.forEach(pm -> pm.setEnabled(configurations.getOrDefault(pm.getId(), false)));
+
+        return getEnabledModules().stream()
                 .map(pm -> {
                     logger.info("Initializing module " + pm.getName() + "...");
 
-                    ModuleResult result = ModuleResult.of(pm, () -> {
-                        pm.getConfiguration().init();
-                        return pm.init();
-                    });
+                    ModuleResult result = ModuleResult.of(pm, pm::init);
 
                     if (!result.isSuccess()) {
                         logger.error("An error occurred while initializing module " + pm.getName() + ": " + result.getMessage().orElse("Unknown Reason"));
@@ -68,7 +65,7 @@ public final class ModuleEngine {
     }
 
     public Set<ModuleResult> startModules() {
-        return this.modules.stream().map(pm -> {
+        return getEnabledModules().stream().map(pm -> {
             logger.info("Starting module " + pm.getName() + "...");
 
             Sponge.getEventManager().registerListeners(pm.getPlugin(), pm);
@@ -84,7 +81,7 @@ public final class ModuleEngine {
     }
 
     public Set<ModuleResult> stopModules() {
-        return this.modules.stream().map(pm -> {
+        return getStartedModules().stream().map(pm -> {
             logger.info("Stopping module " + pm.getName() + "...");
 
             Sponge.getEventManager().unregisterListeners(pm);
@@ -97,5 +94,13 @@ public final class ModuleEngine {
 
             return result;
         }).collect(Collectors.toSet());
+    }
+
+    private Set<PluginModule> getEnabledModules() {
+        return this.modules.stream().filter(PluginModule::isEnabled).collect(Collectors.toSet());
+    }
+
+    private Set<PluginModule> getStartedModules() {
+        return this.modules.stream().filter(PluginModule::isStarted).collect(Collectors.toSet());
     }
 }

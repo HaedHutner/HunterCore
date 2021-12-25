@@ -56,7 +56,8 @@ public abstract class AbstractPluginModule implements PluginModule {
         return shutdown;
     }
 
-    protected void setEnabled(boolean enabled) {
+    @Override
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 

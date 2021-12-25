@@ -11,6 +11,7 @@ import dev.haedhutner.core.module.ModuleRegistrationEvent;
 import dev.haedhutner.core.serialize.DurationTypeSerializer;
 import dev.haedhutner.core.utils.EntityUtils;
 import com.google.common.reflect.TypeToken;
+import dev.haedhutner.core.utils.SimpleOperationResult;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
@@ -39,8 +40,8 @@ import static dev.haedhutner.core.HunterCore.*;
 public class HunterCore {
 
     public static final String ID = "huntercore";
-    public static final String NAME = "A'therys Core";
-    public static final String DESCRIPTION = "The core utilities used on the A'therys Horizons server.";
+    public static final String NAME = "Hunter Core";
+    public static final String DESCRIPTION = "Core Utilities";
     public static final String VERSION = "%PROJECT_VERSION%";
 
     private static HunterCore instance;
@@ -56,6 +57,7 @@ public class HunterCore {
     @Inject
     Injector injector;
 
+    @Inject
     private CoreConfig coreConfig;
 
     private EconomyService economyService;
@@ -73,7 +75,12 @@ public class HunterCore {
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Duration.class), new DurationTypeSerializer());
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Duration.class), new DurationTypeSerializer());
 
-        coreConfig.init();
+        SimpleOperationResult result = coreConfig.init();
+        if (!result.isSuccess()) {
+            logger.error(result.toString());
+            init = false;
+            return;
+        }
 
         if (coreConfig.DB_ENABLED) {
             databaseContext = new DatabaseContext(coreConfig.JPA_CONFIG, logger);

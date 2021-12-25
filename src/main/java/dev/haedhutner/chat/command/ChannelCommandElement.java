@@ -48,6 +48,7 @@ public class ChannelCommandElement extends CommandElement {
         if (channel.isEmpty()) {
             throw exception(channel, args);
         }
+
         return chatService.getChannelById(channel.toLowerCase())
                 .orElseThrow(() -> exception(channel, args));
     }

@@ -30,7 +30,7 @@ public abstract class PluginConfig {
 
     protected ConfigurationOptions options;
 
-    private final Path filePath;
+    protected Path filePath;
 
     /**
      * This constructor will load all serializable fields ( the ones marked with {@link Setting} and
@@ -73,15 +73,24 @@ public abstract class PluginConfig {
      */
     public SimpleOperationResult init() {
         try {
-            Files.createDirectories(filePath.getParent());
-            Files.createFile(filePath);
-
+            this.configMapper = ObjectMapper.forObject(this);
             this.options = getOptions();
 
             this.loader = HoconConfigurationLoader.builder()
                     .setDefaultOptions(options)
                     .setPath(filePath)
                     .build();
+        } catch (ObjectMappingException e) {
+            return new SimpleOperationResult(false, e.getMessage(), e);
+        }
+
+        try {
+            if (filePath == null) {
+                throw new IOException("Configuration file path has not been provided");
+            }
+
+            Files.createDirectories(filePath.getParent());
+            Files.createFile(filePath);
 
             SimpleConfigurationNode out = SimpleConfigurationNode.root();
             this.configMapper.serialize(out);

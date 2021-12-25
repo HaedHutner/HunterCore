@@ -1,6 +1,5 @@
 package dev.haedhutner.chat.service;
 
-import com.atherys.core.AtherysCore;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -8,6 +7,7 @@ import dev.haedhutner.chat.command.ChannelAliasCommand;
 import dev.haedhutner.chat.config.ChannelConfig;
 import dev.haedhutner.chat.config.ChatConfig;
 import dev.haedhutner.chat.model.*;
+import dev.haedhutner.core.HunterCore;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
@@ -59,7 +59,7 @@ public class ChatService {
             ChannelAliasCommand channelAliasCommand = new ChannelAliasCommand(channel);
             injector.injectMembers(channelAliasCommand);
 
-            Sponge.getCommandManager().register(AtherysCore.getInstance(), channelAliasCommand.getSpec(), aliases);
+            Sponge.getCommandManager().register(HunterCore.getInstance(), channelAliasCommand.getSpec(), aliases);
         }
 
         if (config.AUTO_JOIN_CHANNELS.contains(channel.getId())) {
@@ -193,8 +193,8 @@ public class ChatService {
         String format = channel.getFormat()
                 .replace("%prefix", prefix)
                 .replace("%suffix", suffix)
-                .replace("%cprefix", channel.getPrefix())
-                .replace("%csuffix", channel.getSuffix())
+                .replace("%cprefix", Optional.ofNullable(channel.getPrefix()).orElse(""))
+                .replace("%csuffix", Optional.ofNullable(channel.getSuffix()).orElse(""))
                 .replace("%player", playerName)
                 .replace("%message", message)
                 .replace("%world", world);

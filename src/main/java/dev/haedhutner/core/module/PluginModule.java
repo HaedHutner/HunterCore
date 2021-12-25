@@ -17,6 +17,8 @@ public interface PluginModule {
 
     boolean isEnabled();
 
+    void setEnabled(boolean enabled);
+
     boolean isStarted();
 
     boolean isShutdown();
@@ -26,6 +28,4 @@ public interface PluginModule {
     ModuleResult start();
 
     ModuleResult stop();
-
-    ModuleConfiguration getConfiguration();
 }

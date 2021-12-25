@@ -6,10 +6,7 @@ import org.spongepowered.api.text.channel.MessageReceiver;
 import org.spongepowered.api.text.chat.ChatType;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class ChatChannel implements MessageChannel {
 
@@ -19,8 +16,8 @@ public abstract class ChatChannel implements MessageChannel {
     private String format;
     private String prefix;
     private String suffix;
-    private Set<String> aliases;
-    private Set<UUID> players;
+    private Set<String> aliases = new HashSet<>();
+    private Set<UUID> players = new HashSet<>();
 
     public ChatChannel(String id) {
         this.id = id;

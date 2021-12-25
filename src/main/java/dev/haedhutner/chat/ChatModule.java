@@ -11,10 +11,12 @@ import dev.haedhutner.chat.listener.PlayerListener;
 import dev.haedhutner.chat.model.ChatChannel;
 import dev.haedhutner.chat.service.ChatChannelFactory;
 import dev.haedhutner.chat.service.ChatService;
+import dev.haedhutner.core.HunterCore;
 import dev.haedhutner.core.command.CommandService;
 import dev.haedhutner.core.module.AbstractPluginModule;
 import dev.haedhutner.core.module.ModuleResult;
 import dev.haedhutner.core.module.config.ModuleConfiguration;
+import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.plugin.PluginContainer;
 
@@ -22,6 +24,11 @@ import java.util.Map;
 
 @Singleton
 public class ChatModule extends AbstractPluginModule {
+
+    public static final String ID = "chat";
+
+    @Inject
+    private Logger logger;
 
     @Inject
     private ChatConfig chatConfig;
@@ -41,7 +48,7 @@ public class ChatModule extends AbstractPluginModule {
     public ChatModule(PluginContainer plugin) {
         super(
                 plugin,
-                "chat",
+                ID,
                 "Hunter Chat",
                 "A module to extend & improve chat functionality"
         );
@@ -53,13 +60,13 @@ public class ChatModule extends AbstractPluginModule {
             // is this necessary? is the chat service used anywhere from the service manager?
             //Sponge.getServiceManager().setProvider(container, ChatService.class, components.chatService);
 
-            chatConfig.init();
+            chatConfig.init(getPlugin(), this);
 
             // Register listeners
-            Sponge.getEventManager().registerListeners(this, playerListener);
+            Sponge.getEventManager().registerListeners(getPlugin(), playerListener);
 
             try {
-                new CommandService(injector).register(new ChatCommand(), this);
+                new CommandService(injector).register(new ChatCommand(), getPlugin());
             } catch (CommandService.AnnotatedCommandException e) {
                 e.printStackTrace();
             }
@@ -83,7 +90,7 @@ public class ChatModule extends AbstractPluginModule {
                         channel = chatChannelFactory.createRangeChannel(id, channelConfig);
                         break;
                     default:
-                        AtherysCore.getInstance().getLogger().error("Unknown Channel type: " + channelConfig.type + " for channel" + id);
+                        logger.error("Unknown Channel type: " + channelConfig.type + " for channel" + id);
                         channel = chatChannelFactory.createGlobalChannel(id, channelConfig);
                 }
 
@@ -98,16 +105,14 @@ public class ChatModule extends AbstractPluginModule {
 
     @Override
     public ModuleResult start() {
-        return ModuleResult.of(this, () -> ModuleResult.success(this, "Successfully started"));
+        return ModuleResult.of(this, () -> {
+            setStarted(true);
+            return ModuleResult.success(this, "Successfully started");
+        });
     }
 
     @Override
     public ModuleResult stop() {
-        return null;
-    }
-
-    @Override
-    public ModuleConfiguration getConfiguration() {
-        return new ChatConfig(getPlugin(), this);
+        return ModuleResult.success(this, "Successfully stopped");
     }
 }

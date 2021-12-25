@@ -1,6 +1,7 @@
 package dev.haedhutner.chat.command;
 
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import dev.haedhutner.chat.facade.ChannelFacade;
 import dev.haedhutner.chat.model.ChatChannel;
 import dev.haedhutner.core.command.ParameterizedCommand;
@@ -23,6 +24,9 @@ import javax.annotation.Nonnull;
 public class LeaveChannelCommand implements PlayerCommand, ParameterizedCommand {
 
     @Inject
+    Injector injector;
+
+    @Inject
     ChannelFacade channelFacade;
 
     @Nonnull
@@ -34,8 +38,10 @@ public class LeaveChannelCommand implements PlayerCommand, ParameterizedCommand 
 
     @Override
     public CommandElement[] getArguments() {
+        ChannelCommandElement channel = new ChannelCommandElement(Text.of("channel"), true, false);
+        injector.injectMembers(channel);
         return new CommandElement[]{
-                new ChannelCommandElement(Text.of("channel"), true, false)
+                channel
         };
     }
 }

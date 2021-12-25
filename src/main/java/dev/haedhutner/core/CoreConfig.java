@@ -1,8 +1,8 @@
 package dev.haedhutner.core;
 
 import com.google.inject.Singleton;
+import dev.haedhutner.chat.ChatModule;
 import dev.haedhutner.core.db.JPAConfig;
-import dev.haedhutner.core.module.config.ModulesConfiguration;
 import dev.haedhutner.core.utils.PluginConfig;
 import ninja.leaping.configurate.objectmapping.Setting;
 
@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.Map;
+import java.util.HashMap;
 
 @Singleton
 public class CoreConfig extends PluginConfig {
@@ -24,7 +26,9 @@ public class CoreConfig extends PluginConfig {
     public JPAConfig JPA_CONFIG = new JPAConfig();
 
     @Setting("modules")
-    public ModulesConfiguration MODULES = new ModulesConfiguration();
+    public Map<String, Boolean> MODULES = new HashMap<String, Boolean>() {{
+        put(ChatModule.ID, false);
+    }};
 
     protected CoreConfig() throws IOException {
         super(Paths.get(".", "config", HunterCore.ID, "config.conf"));
