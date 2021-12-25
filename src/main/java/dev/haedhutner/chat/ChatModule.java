@@ -1,6 +1,5 @@
 package dev.haedhutner.chat;
 
-import com.atherys.core.AtherysCore;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -11,11 +10,9 @@ import dev.haedhutner.chat.listener.PlayerListener;
 import dev.haedhutner.chat.model.ChatChannel;
 import dev.haedhutner.chat.service.ChatChannelFactory;
 import dev.haedhutner.chat.service.ChatService;
-import dev.haedhutner.core.HunterCore;
 import dev.haedhutner.core.command.CommandService;
 import dev.haedhutner.core.module.AbstractPluginModule;
 import dev.haedhutner.core.module.ModuleResult;
-import dev.haedhutner.core.module.config.ModuleConfiguration;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.plugin.PluginContainer;

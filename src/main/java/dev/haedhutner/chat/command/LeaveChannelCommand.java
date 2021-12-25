@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 
 @Aliases("leave")
 @Description("Leaves a chat channel.")
-@Permission("atheryschat.commands.leave")
+@Permission("hunterchat.commands.leave")
 public class LeaveChannelCommand implements PlayerCommand, ParameterizedCommand {
 
     @Inject

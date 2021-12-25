@@ -14,7 +14,7 @@ import org.spongepowered.api.entity.living.player.Player;
 
 @Aliases("chat")
 @Description("Base chat command.")
-@Permission("atheryschat.commands")
+@Permission("hunterchat.commands")
 @Children({
         JoinChannelCommand.class,
         LeaveChannelCommand.class,

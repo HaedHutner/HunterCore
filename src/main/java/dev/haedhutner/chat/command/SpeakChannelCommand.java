@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 
 @Aliases({"speak", "say", "s"})
 @Description("Speak to a channel channel")
-@Permission("atheryschat.commands.speak")
+@Permission("hunterchat.commands.speak")
 public class SpeakChannelCommand implements PlayerCommand, ParameterizedCommand {
 
     @Inject

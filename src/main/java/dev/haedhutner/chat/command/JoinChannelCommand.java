@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 
 @Aliases("join")
 @Description("Joins a channel")
-@Permission("atheryschat.commands.join")
+@Permission("hunterchat.commands.join")
 public class JoinChannelCommand implements PlayerCommand, ParameterizedCommand {
 
     @Inject
