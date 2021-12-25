@@ -12,6 +12,7 @@ import dev.haedhutner.core.serialize.DurationTypeSerializer;
 import dev.haedhutner.core.utils.EntityUtils;
 import com.google.common.reflect.TypeToken;
 import dev.haedhutner.core.utils.SimpleOperationResult;
+import dev.haedhutner.parties.PartiesModule;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
@@ -101,6 +102,7 @@ public class HunterCore {
     @Listener
     public void onModuleRegistration(ModuleRegistrationEvent event) {
         event.registerModule(new ChatModule(container), injector);
+        event.registerModule(new PartiesModule(container), injector);
     }
 
     @Listener
