@@ -11,7 +11,9 @@ import dev.haedhutner.parties.command.PartyCommand;
 import dev.haedhutner.parties.data.PartyData;
 import dev.haedhutner.parties.data.PartyKeys;
 import dev.haedhutner.parties.facade.PartyFacade;
+import dev.haedhutner.parties.facade.PartyMessagingFacade;
 import dev.haedhutner.parties.listener.PlayerPartyListener;
+import dev.haedhutner.parties.service.PartyService;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataRegistration;
 import org.spongepowered.api.event.Listener;
@@ -21,14 +23,24 @@ import org.spongepowered.api.plugin.PluginContainer;
 public class PartiesModule extends AbstractPluginModule {
 
     @Inject
-    PartyFacade partyFacade;
+    private PartyFacade partyFacade;
 
     @Inject
-    PlayerPartyListener playerPartyListener;
+    private PartyMessagingFacade partyMessagingFacade;
 
     @Inject
-    Injector injector;
+    private PartyService partyService;
 
+    @Inject
+    private PlayerPartyListener playerPartyListener;
+
+    @Inject
+    private Injector injector;
+
+    @Inject
+    private CommandService commandService;
+
+    @Inject
     public PartiesModule(PluginContainer container) {
         super(
                 container,
@@ -57,16 +69,17 @@ public class PartiesModule extends AbstractPluginModule {
     @Override
     public ModuleResult start() {
         return ModuleResult.of(this, () -> {
-
             Sponge.getEventManager().registerListeners(this.getPlugin(), playerPartyListener);
 
             try {
-                new CommandService(injector).register(new PartyCommand(), this.getPlugin());
+                commandService.register(new PartyCommand(), this.getPlugin());
             } catch (CommandService.AnnotatedCommandException e) {
                 e.printStackTrace();
             }
 
-           return ModuleResult.success(this, "Successfully started");
+            setStarted(true);
+
+            return ModuleResult.success(this, "Successfully started");
         });
     }
 
@@ -78,5 +91,17 @@ public class PartiesModule extends AbstractPluginModule {
     @Listener
     public void onChatChannelRegistration(ChatChannelRegistrationEvent event) {
         event.registerChatChannel(partyFacade.createPartyChatChannel(event.getChatService()));
+    }
+
+    public PartyFacade getPartyFacade() {
+        return partyFacade;
+    }
+
+    public PartyMessagingFacade getPartyMessagingFacade() {
+        return partyMessagingFacade;
+    }
+
+    public PartyService getPartyService() {
+        return partyService;
     }
 }

@@ -6,6 +6,8 @@ import com.google.inject.Singleton;
 import dev.haedhutner.chat.command.ChatCommand;
 import dev.haedhutner.chat.config.ChannelConfig;
 import dev.haedhutner.chat.config.ChatConfig;
+import dev.haedhutner.chat.facade.ChannelFacade;
+import dev.haedhutner.chat.facade.ChatMessagingFacade;
 import dev.haedhutner.chat.listener.PlayerListener;
 import dev.haedhutner.chat.model.ChatChannel;
 import dev.haedhutner.chat.service.ChatChannelFactory;
@@ -31,10 +33,16 @@ public class ChatModule extends AbstractPluginModule {
     private ChatConfig chatConfig;
 
     @Inject
-    private ChatService chatService;
+    private ChannelFacade channelFacade;
+
+    @Inject
+    private ChatMessagingFacade chatMessagingFacade;
 
     @Inject
     private ChatChannelFactory chatChannelFactory;
+
+    @Inject
+    private ChatService chatService;
 
     @Inject
     private Injector injector;
@@ -42,6 +50,10 @@ public class ChatModule extends AbstractPluginModule {
     @Inject
     private PlayerListener playerListener;
 
+    @Inject
+    private CommandService commandService;
+
+    @Inject
     public ChatModule(PluginContainer plugin) {
         super(
                 plugin,
@@ -63,7 +75,7 @@ public class ChatModule extends AbstractPluginModule {
             Sponge.getEventManager().registerListeners(getPlugin(), playerListener);
 
             try {
-                new CommandService(injector).register(new ChatCommand(), getPlugin());
+                commandService.register(new ChatCommand(), getPlugin());
             } catch (CommandService.AnnotatedCommandException e) {
                 e.printStackTrace();
             }
@@ -111,5 +123,21 @@ public class ChatModule extends AbstractPluginModule {
     @Override
     public ModuleResult stop() {
         return ModuleResult.success(this, "Successfully stopped");
+    }
+
+    public ChannelFacade getChannelFacade() {
+        return channelFacade;
+    }
+
+    public ChatMessagingFacade getChatMessagingFacade() {
+        return chatMessagingFacade;
+    }
+
+    public ChatChannelFactory getChatChannelFactory() {
+        return chatChannelFactory;
+    }
+
+    public ChatService getChatService() {
+        return chatService;
     }
 }

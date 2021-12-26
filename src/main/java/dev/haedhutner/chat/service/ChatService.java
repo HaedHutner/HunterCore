@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Singleton
-public class ChatService {
+public final class ChatService {
     private static final String READ_POSTFIX = ".read";
     private static final String WRITE_POSTFIX = ".write";
     private static final String LEAVE_POSTFIX = ".toggle";

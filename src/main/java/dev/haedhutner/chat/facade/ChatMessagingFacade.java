@@ -4,7 +4,7 @@ import com.google.inject.Singleton;
 import dev.haedhutner.core.utils.AbstractMessagingFacade;
 
 @Singleton
-public class ChatMessagingFacade extends AbstractMessagingFacade {
+public final class ChatMessagingFacade extends AbstractMessagingFacade {
     public ChatMessagingFacade() {
         super("Chat");
     }

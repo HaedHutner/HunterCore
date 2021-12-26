@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.Optional;
 
 @Singleton
-public class ChatChannelFactory {
+public final class ChatChannelFactory {
 
     @Inject
     ChatService chatService;

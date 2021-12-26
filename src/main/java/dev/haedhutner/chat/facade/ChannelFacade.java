@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Singleton
-public class ChannelFacade {
+public final class ChannelFacade {
 
     @Inject
     private ChatService chatService;

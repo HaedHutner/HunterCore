@@ -37,7 +37,9 @@ public final class ModuleEngine {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
 
-        logger.info("Skipping modules " + disabledModules + " because they are disabled");
+        if (disabledModules.size() > 0) {
+            logger.info("Skipping modules " + disabledModules + " because they are disabled");
+        }
 
         this.modules.forEach(pm -> pm.setEnabled(configurations.getOrDefault(pm.getId(), false)));
 

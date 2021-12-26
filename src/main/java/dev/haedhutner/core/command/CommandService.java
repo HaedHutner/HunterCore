@@ -1,6 +1,8 @@
 package dev.haedhutner.core.command;
 
+import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import dev.haedhutner.core.command.annotation.*;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
@@ -18,10 +20,12 @@ import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Singleton
 public final class CommandService {
 
-    private final Injector injector;
+    private Injector injector;
 
+    @Inject
     public CommandService(Injector injector) {
         this.injector = injector;
     }

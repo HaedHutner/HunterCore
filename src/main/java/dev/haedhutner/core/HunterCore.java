@@ -50,7 +50,7 @@ public class HunterCore {
     private static boolean init = false;
 
     @Inject
-    private Logger logger;
+    Logger logger;
 
     @Inject
     PluginContainer container;
@@ -59,7 +59,13 @@ public class HunterCore {
     Injector injector;
 
     @Inject
-    private CoreConfig coreConfig;
+    CoreConfig coreConfig;
+
+    @Inject
+    ChatModule chatModule;
+
+    @Inject
+    PartiesModule partiesModule;
 
     private EconomyService economyService;
 
@@ -101,8 +107,7 @@ public class HunterCore {
 
     @Listener
     public void onModuleRegistration(ModuleRegistrationEvent event) {
-        event.registerModule(new ChatModule(container), injector);
-        event.registerModule(new PartiesModule(container), injector);
+        event.registerModules(chatModule, partiesModule);
     }
 
     @Listener
@@ -141,6 +146,14 @@ public class HunterCore {
 
     public Logger getLogger() {
         return logger;
+    }
+
+    public ChatModule getChatModule() {
+        return chatModule;
+    }
+
+    public PartiesModule getPartiesModule() {
+        return partiesModule;
     }
 
     public static CoreConfig getConfig() {

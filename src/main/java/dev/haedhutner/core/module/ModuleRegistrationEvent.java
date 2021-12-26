@@ -16,6 +16,22 @@ public class ModuleRegistrationEvent implements Event {
         this.engine = engine;
     }
 
+    public void registerModules(Injector injector, PluginModule... modules) {
+        for (PluginModule module : modules) {
+            registerModule(module, injector);
+        }
+    }
+
+    public void registerModules(PluginModule... modules) {
+        for (PluginModule module : modules) {
+            registerModule(module);
+        }
+    }
+
+    public void registerModule(PluginModule module) {
+        engine.registerModule(module, null);
+    }
+
     public void registerModule(PluginModule module, Injector injector) {
         engine.registerModule(module, injector);
     }
