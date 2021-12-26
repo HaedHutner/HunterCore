@@ -85,7 +85,7 @@ public class PartiesModule extends AbstractPluginModule {
 
     @Override
     public ModuleResult stop() {
-        return null;
+        return ModuleResult.success(this, "Successfully stopped");
     }
 
     @Listener
