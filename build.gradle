@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.johnrengelman.shadow' version '4.0.4'
+    id 'com.github.johnrengelman.shadow' version '7.1.1'
     id 'net.kyori.blossom' version '1.2.0'
     id 'maven-publish'
     id 'java'
@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.spongepowered:spongeapi:7.4.+'
+    annotationProcessor(compileOnly('org.spongepowered:spongeapi:7.4.+'))
 
     implementation 'org.hibernate:hibernate-core:5.6.2.Final'
     implementation 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final'
