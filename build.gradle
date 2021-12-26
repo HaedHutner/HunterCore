@@ -25,8 +25,8 @@ publishing {
         maven {
             version = project.hasProperty("release") ? project.version : project.version + "-SNAPSHOT";
 
-            def releasesRepoUrl = "https://repo.atherys.com/releases"
-            def snapshotsRepoUrl = "https://repo.atherys.com/snapshots"
+            def releasesRepoUrl = "https://repo.haedhutner.dev/releases"
+            def snapshotsRepoUrl = "https://repo.haedhutner.dev/snapshots"
             url = project.hasProperty("release") ? releasesRepoUrl : snapshotsRepoUrl
             credentials(PasswordCredentials) {
                 username = project.properties.getOrDefault("repoUploadAlias", "none")
