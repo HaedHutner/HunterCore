@@ -1,8 +1,8 @@
 package dev.haedhutner.parties.listener;
 
-import com.atherys.core.utils.EntityUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import dev.haedhutner.core.utils.EntityUtils;
 import dev.haedhutner.parties.facade.PartyFacade;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;

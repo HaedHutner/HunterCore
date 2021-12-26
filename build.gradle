@@ -1,19 +1,32 @@
 plugins {
-    id 'com.github.johnrengelman.shadow' version '2.0.2'
-    id 'com.atherys.gradle' version '1.5.0'
-    id 'net.kyori.blossom' version '1.1.0'
+    id 'com.github.johnrengelman.shadow' version '7.1.1'
+    id 'net.kyori.blossom' version '1.2.0'
     id 'maven-publish'
+    id 'java'
+    id 'idea'
+    id 'org.spongepowered.gradle.plugin' version "0.11.0-SNAPSHOT"
 }
 
 group 'dev.haedhutner'
 version '3.0.0'
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://repo.spongepowered.org/maven' }
+}
+
 dependencies {
-    compile 'org.hibernate:hibernate-core:5.3.7.Final'
-    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
-    compile 'org.postgresql:postgresql:42.1.1'
-    compile 'org.flywaydb:flyway-core:7.3.1'
-    compile ('com.github.Atherys-Horizons.TeslaPowered:TeslaLibs:v1.1.7') { transitive = false }
+    compileOnly 'org.spongepowered:spongeapi:7.4.+'
+
+    implementation 'org.hibernate:hibernate-core:5.6.2.Final'
+    implementation 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final'
+    implementation 'org.postgresql:postgresql:42.3.1'
+    implementation 'org.flywaydb:flyway-core:8.2.3'
 }
 
 blossom {
@@ -28,6 +41,7 @@ publishing {
             def releasesRepoUrl = "https://repo.haedhutner.dev/releases"
             def snapshotsRepoUrl = "https://repo.haedhutner.dev/snapshots"
             url = project.hasProperty("release") ? releasesRepoUrl : snapshotsRepoUrl
+
             credentials(PasswordCredentials) {
                 username = project.properties.getOrDefault("repoUploadAlias", "none")
                 password = project.properties.getOrDefault("repoUploadToken", "none")
