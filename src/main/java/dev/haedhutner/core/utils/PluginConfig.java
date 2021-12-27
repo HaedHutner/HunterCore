@@ -2,7 +2,6 @@ package dev.haedhutner.core.utils;
 
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
-import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
@@ -10,14 +9,11 @@ import ninja.leaping.configurate.objectmapping.ObjectMapper;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.objectmapping.Setting;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
-import org.spongepowered.api.plugin.PluginContainer;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * An abstract utility class for creating quick and simple configuration classes using an object
@@ -109,6 +105,7 @@ public abstract class PluginConfig {
      * Reload the configuration. If there are any changes to the config file,
      * they will be loaded and override the values in the current object.
      * This is equivalent to calling <code>load()</code>
+     *
      * @return Whether (re)loading was successful or not
      */
     public SimpleOperationResult reload() {

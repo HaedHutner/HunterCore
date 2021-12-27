@@ -22,7 +22,7 @@ import java.util.Optional;
 @Singleton
 public class SkillService {
 
-    private Map<String, Castable> skills = new HashMap<>();
+    private final Map<String, Castable> skills = new HashMap<>();
 
     @Inject
     ResourceService resourceService;

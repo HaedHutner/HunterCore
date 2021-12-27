@@ -21,7 +21,7 @@ public final class PartyService {
     public static final String PARTY_CHANNEL_PERMISSION = "hunterparties.chat";
 
     // A party uuid to entity cache for use in performance sensitive logic
-    private static Map<UUID, Party> parties = new HashMap<>();
+    private static final Map<UUID, Party> parties = new HashMap<>();
 
     // Yes, this is ugly. No, there's no way to make it prettier.
     public static Optional<Party> getParty(UUID partyUUID) {
@@ -73,7 +73,6 @@ public final class PartyService {
     }
 
     /**
-     *
      * @param party the party whose members are to be retrieved
      * @return A collection of users who are members of the party
      */

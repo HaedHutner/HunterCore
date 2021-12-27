@@ -10,7 +10,7 @@ import org.spongepowered.api.effect.potion.PotionEffectType;
  */
 public class TemporaryPotionEffect extends TemporaryEffect {
 
-    private PotionEffect effect;
+    private final PotionEffect effect;
 
     public TemporaryPotionEffect(String id, String name, PotionEffect effect, boolean isPositive) {
         super(id, name, effect.getDuration() * 50L, isPositive);

@@ -9,7 +9,7 @@ import static org.spongepowered.api.text.format.TextColors.*;
  * An abstraction to help facilitate messaging facades.
  */
 public abstract class AbstractMessagingFacade {
-    private Text prefix;
+    private final Text prefix;
 
     public AbstractMessagingFacade(String prefix) {
         this.prefix = Text.of(GOLD, "[", DARK_GREEN, prefix, GOLD, "] ");

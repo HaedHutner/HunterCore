@@ -5,8 +5,8 @@ import com.google.inject.Singleton;
 import dev.haedhutner.chat.model.ChatChannel;
 import dev.haedhutner.chat.service.ChatService;
 import dev.haedhutner.core.utils.Question;
-import dev.haedhutner.parties.entity.Party;
 import dev.haedhutner.parties.data.PartyData;
+import dev.haedhutner.parties.entity.Party;
 import dev.haedhutner.parties.exception.PartyCommandException;
 import dev.haedhutner.parties.service.PartyService;
 import org.spongepowered.api.Sponge;
@@ -275,7 +275,7 @@ public final class PartyFacade {
      * Under any other circumstances, including if neither user is in a party, this will return false.
      *
      * @param source The first user
-     * @param other The second user
+     * @param other  The second user
      */
     public <T extends User> boolean arePlayersInSameParty(Player source, Player other) {
         Optional<Party> party1 = getPlayerParty(source);

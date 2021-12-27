@@ -13,9 +13,9 @@ import java.util.UUID;
 
 public class EntityEffectCarrier implements SpongeIdentifiable, ApplyableCarrier<Living> {
 
-    private Living cachedLiving;
+    private final Living cachedLiving;
 
-    private Set<Applyable> effects = new HashSet<>();
+    private final Set<Applyable> effects = new HashSet<>();
 
     public EntityEffectCarrier(Living living) {
         this.cachedLiving = living;
@@ -23,11 +23,11 @@ public class EntityEffectCarrier implements SpongeIdentifiable, ApplyableCarrier
 
     @Override
     public Optional<Living> getLiving() {
-        if ( cachedLiving == null ) {
+        if (cachedLiving == null) {
             return Optional.empty();
         }
 
-        if ( cachedLiving.isRemoved() || !cachedLiving.isLoaded() ) {
+        if (cachedLiving.isRemoved() || !cachedLiving.isLoaded()) {
             return Optional.empty();
         }
 

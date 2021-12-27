@@ -7,9 +7,9 @@ import org.spongepowered.api.event.cause.Cause;
 
 public class ModuleRegistrationEvent implements Event {
 
-    private Cause cause;
+    private final Cause cause;
 
-    private ModuleEngine engine;
+    private final ModuleEngine engine;
 
     public ModuleRegistrationEvent(ModuleEngine engine) {
         this.cause = Cause.of(Sponge.getCauseStackManager().getCurrentContext(), engine);

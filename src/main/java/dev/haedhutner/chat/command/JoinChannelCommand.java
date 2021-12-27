@@ -42,6 +42,6 @@ public class JoinChannelCommand implements PlayerCommand, ParameterizedCommand {
     public CommandElement[] getArguments() {
         ChannelCommandElement channel = new ChannelCommandElement(Text.of("channel"));
         injector.injectMembers(channel);
-        return new CommandElement[]{ channel };
+        return new CommandElement[]{channel};
     }
 }

@@ -1,6 +1,7 @@
 package dev.haedhutner.skills.api.effect;
 
 import org.spongepowered.api.CatalogType;
+
 /**
  * An object which can be applied to a character and cause various temporary effects upon their game experience.
  * Applyables are not persisted across server restarts.
@@ -22,7 +23,7 @@ public interface Applyable extends CatalogType {
 
     /**
      * Will be called when {@link #canRemove(long, ApplyableCarrier)} is true.
-     *
+     * <p>
      * WARNING: Do not remove the effect from the carrier here.
      */
     boolean remove(long timestamp, ApplyableCarrier<?> character);

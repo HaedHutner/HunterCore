@@ -16,13 +16,13 @@ public class ChannelConfig {
     /**
      * If the configured permission is "example.plugin.someChat",
      * then the following permissions can be assigned:
-     *
+     * <p>
      * * "example.plugin.someChat.read" -- for read access
      * * "example.plugin.someChat.speak" -- for write access
      * * "example.plugin.someChat.join" -- permission to join the channel
      * * "example.plugin.someChat.leave" -- permission to leave the channel
      * * "example.plugin.someChat.format" -- for sending formatted messages
-     *
+     * <p>
      * If this is null, then by default it is understood that all players have permissions to read, write, format
      */
     @Setting("permission")

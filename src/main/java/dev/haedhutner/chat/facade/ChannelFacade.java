@@ -107,7 +107,7 @@ public final class ChannelFacade {
     }
 
     public void joinChannel(Player source, ChatChannel channel) throws CommandException {
-        if (!chatService.hasReadPermission(source, channel)){
+        if (!chatService.hasReadPermission(source, channel)) {
             throw new HunterChatException("You do not have permission to join the ", chatService.getChannelTextName(channel), " channel.");
         }
         addPlayerToChannel(source, channel);

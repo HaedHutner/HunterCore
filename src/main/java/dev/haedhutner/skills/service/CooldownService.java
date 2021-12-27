@@ -16,9 +16,9 @@ public class CooldownService {
     @Inject
     SkillsConfig config;
 
-    private Map<UUID, Long> globalCooldowns = new HashMap<>();
+    private final Map<UUID, Long> globalCooldowns = new HashMap<>();
 
-    private Map<UUID, Map<Castable, Long>> lastUsed = new HashMap<>();
+    private final Map<UUID, Map<Castable, Long>> lastUsed = new HashMap<>();
 
     CooldownService() {
     }

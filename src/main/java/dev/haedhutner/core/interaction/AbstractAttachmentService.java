@@ -7,11 +7,12 @@ import java.util.*;
 /**
  * This class represents interacts between Players and an object. Usually, this is the go-between for commands
  * that require some action after use.
+ *
  * @param <T> the object the player is attaching
  */
-public abstract class AbstractAttachmentService<T> implements AttachmentService<T>{
-    private Map<UUID, T> attachers;
-    private Set<UUID> removers;
+public abstract class AbstractAttachmentService<T> implements AttachmentService<T> {
+    private final Map<UUID, T> attachers;
+    private final Set<UUID> removers;
 
     public AbstractAttachmentService() {
         this.attachers = new HashMap<>();

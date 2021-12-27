@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public abstract class AbstractEffect implements Applyable {
 
-    private String id;
-    private String name;
-    private boolean isPositive;
+    private final String id;
+    private final String name;
+    private final boolean isPositive;
 
     protected AbstractEffect(String id, String name, boolean isPositive) {
         this.id = id;

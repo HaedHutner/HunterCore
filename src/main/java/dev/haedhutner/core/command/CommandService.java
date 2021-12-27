@@ -1,7 +1,10 @@
 package dev.haedhutner.core.command;
 
 import com.google.inject.Singleton;
-import dev.haedhutner.core.command.annotation.*;
+import dev.haedhutner.core.command.annotation.Aliases;
+import dev.haedhutner.core.command.annotation.Description;
+import dev.haedhutner.core.command.annotation.HelpCommand;
+import dev.haedhutner.core.command.annotation.Permission;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.source.ConsoleSource;
@@ -9,14 +12,14 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.text.Text;
-import static org.spongepowered.api.text.format.TextColors.*;
-
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextStyles;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.spongepowered.api.text.format.TextColors.*;
 
 @Singleton
 public final class CommandService {
@@ -143,8 +146,8 @@ public final class CommandService {
 
         Text commandText = Text.of(GOLD, "/" + prefix + base + alias);
         help.append(commandText)
-            .onClick(TextActions.suggestCommand(commandText.toPlain()))
-            .onHover(TextActions.showText(Text.of(commandText)));
+                .onClick(TextActions.suggestCommand(commandText.toPlain()))
+                .onHover(TextActions.showText(Text.of(commandText)));
 
         // Don't want to spam the message with a bunch of sub-commands
         if (command.getChildren().size() == 0) {

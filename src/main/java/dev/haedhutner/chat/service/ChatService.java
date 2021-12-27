@@ -6,7 +6,7 @@ import com.google.inject.Singleton;
 import dev.haedhutner.chat.command.ChannelAliasCommand;
 import dev.haedhutner.chat.config.ChannelConfig;
 import dev.haedhutner.chat.config.ChatConfig;
-import dev.haedhutner.chat.model.*;
+import dev.haedhutner.chat.model.ChatChannel;
 import dev.haedhutner.core.HunterCore;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;

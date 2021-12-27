@@ -2,23 +2,23 @@ package dev.haedhutner.core.utils;
 
 import com.flowpowered.math.vector.Vector3d;
 import org.spongepowered.api.effect.Viewer;
-import org.spongepowered.api.effect.sound.SoundCategory;
 import org.spongepowered.api.effect.sound.SoundCategories;
+import org.spongepowered.api.effect.sound.SoundCategory;
 import org.spongepowered.api.effect.sound.SoundType;
 
 public class Sound {
 
-    public static void playSound(Sound sound, Viewer viewer, Vector3d position){
+    public static void playSound(Sound sound, Viewer viewer, Vector3d position) {
         viewer.playSound(sound.getSoundType(), sound.getCategory(), position, sound.getVolume(), sound.getPitch(), sound.getMinVolume());
     }
 
-    private SoundCategory category;
-    private SoundType soundType;
-    private double minVolume;
-    private double volume;
-    private double pitch;
+    private final SoundCategory category;
+    private final SoundType soundType;
+    private final double minVolume;
+    private final double volume;
+    private final double pitch;
 
-    private Sound(SoundCategory category, SoundType type, double minVolume, double volume, double pitch){
+    private Sound(SoundCategory category, SoundType type, double minVolume, double volume, double pitch) {
         this.category = category;
         this.soundType = type;
         this.minVolume = minVolume;
@@ -46,7 +46,7 @@ public class Sound {
         return pitch;
     }
 
-    public static Builder builder(SoundType type, double volume){
+    public static Builder builder(SoundType type, double volume) {
         return new Builder(type, volume);
     }
 
@@ -57,16 +57,16 @@ public class Sound {
         private double pitch = 1;
         private double volume = 1;
 
-        private Builder(SoundType type, double volume){
+        private Builder(SoundType type, double volume) {
             this.type = type;
             this.volume = volume;
         }
 
-        public Sound build(){
+        public Sound build() {
             return new Sound(category, type, minVolume, volume, pitch);
         }
 
-        public Builder soundCategory(SoundCategory category){
+        public Builder soundCategory(SoundCategory category) {
             this.category = category;
             return this;
         }

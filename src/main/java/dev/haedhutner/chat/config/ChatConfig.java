@@ -16,6 +16,7 @@ public class ChatConfig extends ModuleConfiguration {
 
     @Setting("channels")
     public Map<String, ChannelConfig> CHANNELS = new HashMap<>();
+
     {
         // Setup some default channels
         CHANNELS.put("global", new ChannelConfig());
@@ -45,6 +46,7 @@ public class ChatConfig extends ModuleConfiguration {
 
     @Setting(value = "auto-join-channels", comment = "List of channels to join upon login")
     public Set<String> AUTO_JOIN_CHANNELS = new HashSet<>();
+
     {
         AUTO_JOIN_CHANNELS.add("local");
     }

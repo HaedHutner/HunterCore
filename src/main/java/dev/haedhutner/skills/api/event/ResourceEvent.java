@@ -13,11 +13,11 @@ public class ResourceEvent implements Event, Cancellable {
 
     private boolean cancelled;
 
-    private Cause cause;
+    private final Cause cause;
 
     private Living entity;
 
-    private ResourceUser resourceUser;
+    private final ResourceUser resourceUser;
 
 
     public ResourceEvent(Living entity, ResourceUser resourceUser) {

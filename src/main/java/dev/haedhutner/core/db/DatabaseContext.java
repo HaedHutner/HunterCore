@@ -15,7 +15,7 @@ import java.util.Properties;
 
 public class DatabaseContext implements AutoCloseable {
 
-    private JPAConfig config;
+    private final JPAConfig config;
 
     private EntityManagerFactory entityManagerFactory;
 
@@ -67,7 +67,7 @@ public class DatabaseContext implements AutoCloseable {
 
     @Override
     public void close() {
-        if (entityManagerFactory != null ) {
+        if (entityManagerFactory != null) {
             entityManagerFactory.close();
         }
     }

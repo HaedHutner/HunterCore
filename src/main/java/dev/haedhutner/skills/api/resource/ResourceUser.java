@@ -12,7 +12,6 @@ public interface ResourceUser {
     void fill();
 
     /**
-     *
      * @param amount
      */
     void drain(double amount);

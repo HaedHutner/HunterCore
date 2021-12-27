@@ -24,10 +24,10 @@ public final class Question {
             .of(TextColors.DARK_AQUA, "{", TextColors.AQUA, "Question", TextColors.DARK_AQUA, "}\n");
     public static Text QUESTION_DECORATION_BOT = Text.of(TextColors.DARK_AQUA, "\n");
 
-    private static Map<UUID, Question> questions = new HashMap<>();
-    private UUID id;
-    private Text question;
-    private List<Answer> answers;
+    private static final Map<UUID, Question> questions = new HashMap<>();
+    private final UUID id;
+    private final Text question;
+    private final List<Answer> answers;
     private Text decorationTop;
     private Text decorationBottom;
 
@@ -152,7 +152,7 @@ public final class Question {
 
     public static class Builder {
 
-        private Question question;
+        private final Question question;
 
         private Builder(Text question) {
             this.question = new Question(question);
@@ -198,7 +198,7 @@ public final class Question {
 
     public static class Answer {
 
-        private Text text;
+        private final Text text;
         private Consumer<Player> action;
 
         private Answer(Text text) {

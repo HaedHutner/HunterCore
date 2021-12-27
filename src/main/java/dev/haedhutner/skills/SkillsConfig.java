@@ -3,7 +3,6 @@ package dev.haedhutner.skills;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import dev.haedhutner.core.module.PluginModule;
 import dev.haedhutner.core.module.config.ModuleConfiguration;
 import ninja.leaping.configurate.objectmapping.Setting;
 import org.spongepowered.api.block.BlockTypes;

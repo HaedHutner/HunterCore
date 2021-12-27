@@ -1,7 +1,7 @@
 package dev.haedhutner.core.gson;
 
-import dev.haedhutner.core.utils.RuntimeTypeAdapterFactory;
 import com.google.gson.GsonBuilder;
+import dev.haedhutner.core.utils.RuntimeTypeAdapterFactory;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import java.util.Optional;
  */
 public class TypeAdapterFactoryRegistry {
 
-    private Map<Class<?>, RuntimeTypeAdapterFactory<?>> typeAdapterFactoryMap = new HashMap<>();
+    private final Map<Class<?>, RuntimeTypeAdapterFactory<?>> typeAdapterFactoryMap = new HashMap<>();
 
     /**
      * Adds a new class to RTAF pair to this Registry

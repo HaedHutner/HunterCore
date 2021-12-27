@@ -4,25 +4,20 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import dev.haedhutner.chat.command.ChatCommand;
-import dev.haedhutner.chat.config.ChannelConfig;
 import dev.haedhutner.chat.config.ChatConfig;
 import dev.haedhutner.chat.facade.ChannelFacade;
 import dev.haedhutner.chat.facade.ChatMessagingFacade;
 import dev.haedhutner.chat.listener.PlayerListener;
-import dev.haedhutner.chat.model.ChatChannel;
 import dev.haedhutner.chat.service.ChatChannelFactory;
 import dev.haedhutner.chat.service.ChatService;
 import dev.haedhutner.core.command.CommandService;
 import dev.haedhutner.core.module.AbstractPluginModule;
 import dev.haedhutner.core.module.ModuleResult;
 import dev.haedhutner.core.module.config.ModuleConfiguration;
-import dev.haedhutner.core.utils.SimpleOperationResult;
-import dev.haedhutner.skills.SkillsConfig;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.plugin.PluginContainer;
 
-import java.util.Map;
 import java.util.Optional;
 
 @Singleton

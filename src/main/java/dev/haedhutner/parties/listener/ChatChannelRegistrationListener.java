@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import dev.haedhutner.chat.event.ChatChannelRegistrationEvent;
 import dev.haedhutner.parties.facade.PartyFacade;
-import dev.haedhutner.parties.service.PartyService;
 import org.spongepowered.api.event.Listener;
 
 @Singleton

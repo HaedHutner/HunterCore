@@ -9,9 +9,9 @@ import org.spongepowered.api.Sponge;
 
 public class DatabaseMigrator {
 
-    private JPAConfig config;
+    private final JPAConfig config;
 
-    private Logger logger;
+    private final Logger logger;
 
     public DatabaseMigrator(JPAConfig config, Logger logger) {
         this.logger = logger;

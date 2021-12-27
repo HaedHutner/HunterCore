@@ -2,7 +2,6 @@ package dev.haedhutner.core.module.config;
 
 import dev.haedhutner.core.module.PluginModule;
 import dev.haedhutner.core.utils.PluginConfig;
-import dev.haedhutner.core.utils.SimpleOperationResult;
 import org.spongepowered.api.plugin.PluginContainer;
 
 import java.nio.file.Path;

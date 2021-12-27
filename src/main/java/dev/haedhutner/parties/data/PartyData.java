@@ -96,7 +96,7 @@ public class PartyData extends AbstractData<PartyData, PartyData.Immutable> {
 
     public static class Immutable extends AbstractImmutableData<Immutable, PartyData> {
 
-        private UUID partyUUID;
+        private final UUID partyUUID;
 
         {
             registerGetters();

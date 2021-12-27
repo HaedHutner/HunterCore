@@ -1,7 +1,7 @@
 package dev.haedhutner.core.serialize;
 
-import dev.haedhutner.core.utils.CoreUtils;
 import com.google.common.reflect.TypeToken;
+import dev.haedhutner.core.utils.CoreUtils;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;

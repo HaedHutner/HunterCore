@@ -35,7 +35,7 @@ public class PartyPvpCommand implements PlayerCommand, ParameterizedCommand {
 
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[] {
+        return new CommandElement[]{
                 GenericArguments.bool(Text.of("toggle"))
         };
     }

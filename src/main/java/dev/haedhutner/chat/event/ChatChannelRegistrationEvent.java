@@ -8,9 +8,9 @@ import org.spongepowered.api.event.cause.Cause;
 
 public class ChatChannelRegistrationEvent implements Event {
 
-    private Cause cause;
+    private final Cause cause;
 
-    private ChatService chatService;
+    private final ChatService chatService;
 
     public ChatChannelRegistrationEvent(ChatService chatService) {
         this.chatService = chatService;

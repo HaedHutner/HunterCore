@@ -66,7 +66,7 @@ public class PartiesModule extends AbstractPluginModule {
                     .manipulatorId("party")
                     .buildAndRegister(this.getPlugin());
 
-           return ModuleResult.success(this, "Successfully initialized");
+            return ModuleResult.success(this, "Successfully initialized");
         });
     }
 

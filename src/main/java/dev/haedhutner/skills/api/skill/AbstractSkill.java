@@ -5,9 +5,9 @@ import org.spongepowered.api.text.Text;
 
 public abstract class AbstractSkill implements Castable {
 
-    private String id;
+    private final String id;
 
-    private String name;
+    private final String name;
 
     protected AbstractSkill(String id, String name) {
         this.id = id;

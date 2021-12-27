@@ -9,9 +9,9 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class ThreadsafeCache<T extends Identifiable<ID>, ID extends Serializable> implements Cache<T,ID> {
+public class ThreadsafeCache<T extends Identifiable<ID>, ID extends Serializable> implements Cache<T, ID> {
 
-    private Hashtable<ID,T> cache = new Hashtable<>();
+    private final Hashtable<ID, T> cache = new Hashtable<>();
 
     public ThreadsafeCache() {
     }

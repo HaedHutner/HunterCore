@@ -62,7 +62,7 @@ public class CombatLog {
         }
     }
 
-    private Set<Entry> log = new HashSet<>();
+    private final Set<Entry> log = new HashSet<>();
 
     private Task cleanup;
 
@@ -90,7 +90,7 @@ public class CombatLog {
         return log.stream()
                 .filter(entry ->
                         (entry.getAttacker().equals(playerA.getUniqueId()) && entry.getVictim().equals(playerB.getUniqueId())) ||
-                        (entry.getAttacker().equals(playerB.getUniqueId()) && entry.getVictim().equals(playerA.getUniqueId()))
+                                (entry.getAttacker().equals(playerB.getUniqueId()) && entry.getVictim().equals(playerA.getUniqueId()))
                 )
                 .map(entry -> {
                     if (entry.getAttacker().equals(playerA.getUniqueId())) {

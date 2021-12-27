@@ -1,7 +1,7 @@
 package dev.haedhutner.core.gson;
 
-import dev.haedhutner.core.HunterCore;
 import com.google.gson.*;
+import dev.haedhutner.core.HunterCore;
 import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.DataSerializable;
 import org.spongepowered.api.data.DataView;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class SerializableTypeAdapter<T extends DataSerializable> extends AbstractTypeAdapter<T> {
 
-    private JsonParser parser = new JsonParser();
+    private final JsonParser parser = new JsonParser();
 
     protected SerializableTypeAdapter(Class<T> clazz) {
         super(clazz);

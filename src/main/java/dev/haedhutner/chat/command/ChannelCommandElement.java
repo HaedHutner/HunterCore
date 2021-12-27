@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ChannelCommandElement extends CommandElement {
-    private static TextTemplate exception = TextTemplate.of("No Channel called ", TextTemplate.arg("channel"), " found.");
+    private static final TextTemplate exception = TextTemplate.of("No Channel called ", TextTemplate.arg("channel"), " found.");
 
     @Inject
     private ChatService chatService;
@@ -64,12 +64,12 @@ public class ChannelCommandElement extends CommandElement {
             return channelFacade.getPlayerVisibleChannels((Player) src).stream()
                     .map(ChatChannel::getId)
                     .collect(Collectors.toList());
-        // List all channels that the player
+            // List all channels that the player
         } else if (this.returnNonMemberChannels) {
             return channelFacade.getPlayerNonMemberChannels((Player) src).stream()
                     .map(ChatChannel::getId)
                     .collect(Collectors.toList());
-        // List only joined channels
+            // List only joined channels
         } else if (this.returnMemberChannels) {
             return channelFacade.getPlayerMemberChannels((Player) src).stream()
                     .map(ChatChannel::getId)

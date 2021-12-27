@@ -10,9 +10,9 @@ import java.util.List;
 
 public class HunterDatabaseMigrationEvent implements Event {
 
-    private Cause cause;
+    private final Cause cause;
 
-    private List<String> pluginIds = new ArrayList<>();
+    private final List<String> pluginIds = new ArrayList<>();
 
     public HunterDatabaseMigrationEvent() {
         this.cause = Cause.builder().append(HunterCore.getInstance()).build(Sponge.getCauseStackManager().getCurrentContext());

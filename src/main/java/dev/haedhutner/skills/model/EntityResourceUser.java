@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class EntityResourceUser implements SpongeIdentifiable, ResourceUser {
 
-    private UUID uuid;
+    private final UUID uuid;
     private double current;
     private double max;
 

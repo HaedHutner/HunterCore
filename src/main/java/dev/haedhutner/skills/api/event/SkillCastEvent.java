@@ -10,13 +10,13 @@ import org.spongepowered.api.event.cause.Cause;
 
 public abstract class SkillCastEvent implements Event {
 
-    private Cause cause;
+    private final Cause cause;
 
     protected Living user;
 
     protected Castable skill;
 
-    private long timestamp;
+    private final long timestamp;
 
     public SkillCastEvent(Living user, Castable skill, long timestamp) {
         this.cause = Cause.of(Sponge.getCauseStackManager().getCurrentContext(), user, skill);
@@ -71,7 +71,7 @@ public abstract class SkillCastEvent implements Event {
 
     public static class Post extends SkillCastEvent {
 
-        private CastResult result;
+        private final CastResult result;
 
         public Post(Living user, Castable skill, long timestamp, CastResult result) {
             super(user, skill, timestamp);

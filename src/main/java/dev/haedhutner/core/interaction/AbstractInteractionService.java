@@ -9,8 +9,8 @@ import java.util.UUID;
 /**
  * Like {@link AttachmentService} but for interactions that don't involve another object.
  */
-public abstract class AbstractInteractionService implements InteractionService{
-    private Set<UUID> interactors;
+public abstract class AbstractInteractionService implements InteractionService {
+    private final Set<UUID> interactors;
 
     public AbstractInteractionService() {
         interactors = new HashSet<>();

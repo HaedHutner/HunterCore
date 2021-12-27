@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class CoreConfig extends PluginConfig {

@@ -16,7 +16,7 @@ public class SimpleDamageEffectSkill extends TargetedSkill {
 
     public static class PeriodicSimpleDamageEffect extends PeriodicEffect {
 
-        private double damage;
+        private final double damage;
 
         protected PeriodicSimpleDamageEffect(long timeBetweenTicks, int ticks, double damage) {
             super("periodic-simple-damage-effect", "Periodic Simple Damage Effect", timeBetweenTicks, ticks, false);

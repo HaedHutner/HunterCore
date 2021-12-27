@@ -4,7 +4,7 @@ public abstract class TemporaryEffect extends AbstractEffect {
 
     private long timestampApplied;
 
-    private long duration;
+    private final long duration;
 
     private boolean applied;
 

@@ -8,9 +8,9 @@ import org.spongepowered.api.event.cause.Cause;
 
 public class EffectRegistrationEvent implements Event {
 
-    private Cause cause;
+    private final Cause cause;
 
-    private EffectService effectService;
+    private final EffectService effectService;
 
     public EffectRegistrationEvent(EffectService effectService) {
         cause = Cause.of(Sponge.getCauseStackManager().getCurrentContext(), effectService);

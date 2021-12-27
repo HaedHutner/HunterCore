@@ -3,7 +3,6 @@ package dev.haedhutner.core.module;
 import dev.haedhutner.core.module.config.ModuleConfiguration;
 import org.spongepowered.api.plugin.PluginContainer;
 
-import java.io.IOException;
 import java.util.Optional;
 
 public interface PluginModule {

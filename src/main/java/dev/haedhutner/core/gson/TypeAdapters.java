@@ -11,7 +11,7 @@ import org.spongepowered.api.data.DataSerializable;
 public class TypeAdapters {
 
     @SafeVarargs
-    public static void registerCatalogTypes(GsonBuilder builder, Class<? extends CatalogType>...classes) {
+    public static void registerCatalogTypes(GsonBuilder builder, Class<? extends CatalogType>... classes) {
         for (Class<? extends CatalogType> cls : classes) {
             CatalogTypeAdapter<?> newAdapter = new CatalogTypeAdapter<>(cls);
             builder.registerTypeAdapter(cls, newAdapter);
@@ -19,7 +19,7 @@ public class TypeAdapters {
     }
 
     @SafeVarargs
-    public static void registerSerializables(GsonBuilder builder, Class<? extends DataSerializable>...classes) {
+    public static void registerSerializables(GsonBuilder builder, Class<? extends DataSerializable>... classes) {
         for (Class<? extends DataSerializable> cls : classes) {
             SerializableTypeAdapter<?> newAdapter = new SerializableTypeAdapter<>(cls);
             builder.registerTypeAdapter(cls, newAdapter);

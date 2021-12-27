@@ -4,15 +4,6 @@ package dev.haedhutner.core.menu;
 //import com.mcsimonflash.sponge.teslalibs.inventory.Element;
 //import com.mcsimonflash.sponge.teslalibs.inventory.Layout;
 //import com.mcsimonflash.sponge.teslalibs.inventory.View;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.item.inventory.InteractInventoryEvent;
-import org.spongepowered.api.plugin.PluginContainer;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * A view intended to have player-specific elements.

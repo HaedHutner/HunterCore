@@ -16,16 +16,14 @@ import org.spongepowered.api.text.title.Title;
 import java.util.Collections;
 import java.util.Optional;
 
-import static org.spongepowered.api.text.format.TextColors.GRAY;
-
 @Singleton
 public class ResourceFacade {
 
     private static final int MAX_NUMBER_BARS = 10;
 
-    private ResourceService resourceService;
+    private final ResourceService resourceService;
 
-    private SkillsConfig config;
+    private final SkillsConfig config;
 
     private ImmutableMap<Integer, Text> resourceBars;
 

@@ -9,9 +9,9 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class SimpleCache<T extends Identifiable<ID>, ID extends Serializable> implements Cache<T,ID> {
+public class SimpleCache<T extends Identifiable<ID>, ID extends Serializable> implements Cache<T, ID> {
 
-    private HashMap<ID,T> cache = new HashMap<>();
+    private final HashMap<ID, T> cache = new HashMap<>();
 
     public SimpleCache() {
     }

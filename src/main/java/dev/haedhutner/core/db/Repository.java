@@ -76,7 +76,7 @@ public interface Repository<T extends Identifiable<ID>, ID extends Serializable>
         return CompletableFuture.runAsync(() -> querySingle(jpql, result, setParams, resultConsumer));
     }
 
-    default <R> CompletableFuture<Void> queryMultipleAsync(String jpql, Class<R> result,  Consumer<Query> setParams, Consumer<Collection<R>> resultConsumer) {
+    default <R> CompletableFuture<Void> queryMultipleAsync(String jpql, Class<R> result, Consumer<Query> setParams, Consumer<Collection<R>> resultConsumer) {
         return CompletableFuture.runAsync(() -> queryMultiple(jpql, result, setParams, resultConsumer));
     }
 

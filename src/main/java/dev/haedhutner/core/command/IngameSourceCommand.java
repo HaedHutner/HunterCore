@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
  *
  * @param <V>
  */
-public interface IngameSourceCommand<V extends SpongeIdentifiable> extends SourceCommand<Player,V> {
+public interface IngameSourceCommand<V extends SpongeIdentifiable> extends SourceCommand<Player, V> {
     @Override
     @Nonnull
     default CommandResult execute(@Nonnull CommandSource src, @Nonnull CommandContext args) throws CommandException {

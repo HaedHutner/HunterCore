@@ -26,7 +26,7 @@ public class ResourceService {
     @Inject
     private PluginContainer plugin;
 
-    private Map<UUID, ResourceUser> resourceUsers = new HashMap<>();
+    private final Map<UUID, ResourceUser> resourceUsers = new HashMap<>();
 
     private Task resourceRegenTask;
 

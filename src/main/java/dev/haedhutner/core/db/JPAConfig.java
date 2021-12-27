@@ -19,7 +19,8 @@ public final class JPAConfig {
     public static final String PASSWORD_KEY = Environment.CONNECTION_PREFIX + ".password";
 
     @Setting("hibernate")
-    public Map<String,String> HIBERNATE = new HashMap<>();
+    public Map<String, String> HIBERNATE = new HashMap<>();
+
     {
         HIBERNATE.put(DRIVER_CLASS_KEY, "org.h2.Driver");
         HIBERNATE.put(URL_KEY, "jdbc:h2:file:./config/huntercore/data");

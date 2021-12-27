@@ -8,9 +8,9 @@ import java.util.List;
 
 public class HunterHibernateConfigurationEvent implements Event {
 
-    private Cause cause;
+    private final Cause cause;
 
-    private List<Class<?>> classes;
+    private final List<Class<?>> classes;
 
     public HunterHibernateConfigurationEvent(List<Class<?>> classes) {
         this.cause = Cause.builder().append(classes).build(Sponge.getCauseStackManager().getCurrentContext());

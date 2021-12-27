@@ -3,7 +3,6 @@ package dev.haedhutner.chat.command;
 import com.google.inject.Inject;
 import dev.haedhutner.chat.facade.ChannelFacade;
 import dev.haedhutner.chat.model.ChatChannel;
-import dev.haedhutner.chat.service.ChatService;
 import dev.haedhutner.core.command.PlayerCommand;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -21,7 +20,7 @@ public class ChannelAliasCommand implements PlayerCommand, CommandExecutor {
     @Inject
     ChannelFacade channelFacade;
 
-    private ChatChannel channel;
+    private final ChatChannel channel;
 
     public ChannelAliasCommand(ChatChannel channel) {
         this.channel = channel;
@@ -29,7 +28,7 @@ public class ChannelAliasCommand implements PlayerCommand, CommandExecutor {
 
     public CommandSpec getSpec() {
         return CommandSpec.builder()
-                .description(Text.of("Switch to/send a message to the",  TextSerializers.FORMATTING_CODE.deserialize(this.channel.getName()), " channel."))
+                .description(Text.of("Switch to/send a message to the", TextSerializers.FORMATTING_CODE.deserialize(this.channel.getName()), " channel."))
                 .executor(this)
                 .arguments(this.getArguments())
                 .build();

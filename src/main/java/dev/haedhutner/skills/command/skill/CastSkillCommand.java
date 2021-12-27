@@ -46,7 +46,7 @@ public class CastSkillCommand implements PlayerCommand, ParameterizedCommand {
     public CommandElement[] getArguments() {
         SkillCommandElement skillCommandElement = new SkillCommandElement(Text.of("skill-name"));
         injector.injectMembers(skillCommandElement);
-        return new CommandElement[] {
+        return new CommandElement[]{
                 skillCommandElement,
                 GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("arguments...")))
         };

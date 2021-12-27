@@ -9,9 +9,9 @@ import org.spongepowered.api.plugin.PluginContainer;
 
 public class SkillRegistrationEvent implements Event {
 
-    private Cause cause;
+    private final Cause cause;
 
-    private SkillService skillService;
+    private final SkillService skillService;
 
     public SkillRegistrationEvent(SkillService skillService) {
         cause = Cause.of(Sponge.getCauseStackManager().getCurrentContext(), skillService);

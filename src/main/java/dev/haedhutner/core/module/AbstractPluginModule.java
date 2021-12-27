@@ -1,6 +1,5 @@
 package dev.haedhutner.core.module;
 
-import dev.haedhutner.core.module.config.ModuleConfiguration;
 import dev.haedhutner.core.utils.SimpleOperationResult;
 import org.spongepowered.api.plugin.PluginContainer;
 

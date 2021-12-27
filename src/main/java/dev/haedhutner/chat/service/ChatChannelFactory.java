@@ -4,14 +4,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import dev.haedhutner.chat.config.ChannelConfig;
 import dev.haedhutner.chat.model.ChatChannel;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageReceiver;
 import org.spongepowered.api.text.chat.ChatType;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Optional;
 
 @Singleton

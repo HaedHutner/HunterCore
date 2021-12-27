@@ -6,7 +6,7 @@ import org.spongepowered.api.world.World;
 
 import javax.persistence.AttributeConverter;
 
-public class LocationConverter implements AttributeConverter<Location<World>,String> {
+public class LocationConverter implements AttributeConverter<Location<World>, String> {
     @Override
     public String convertToDatabaseColumn(Location<World> attribute) {
         return String.format("%f %f %f %s", attribute.getX(), attribute.getY(), attribute.getZ(), attribute.getExtent().getName());

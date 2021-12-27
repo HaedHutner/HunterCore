@@ -16,7 +16,8 @@ public class PartyKeys {
 
     static {
         PARTY = Key.builder()
-                .type(new TypeToken<Value<UUID>>() {})
+                .type(new TypeToken<Value<UUID>>() {
+                })
                 .id("party")
                 .name("Party")
                 .query(DataQuery.of("huntercore", "Party"))

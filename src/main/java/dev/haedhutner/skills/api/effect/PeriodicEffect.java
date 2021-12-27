@@ -4,7 +4,7 @@ public abstract class PeriodicEffect extends AbstractEffect {
 
     private long lastApplied;
 
-    private long timeBetween;
+    private final long timeBetween;
 
     private int ticksRemaining;
 

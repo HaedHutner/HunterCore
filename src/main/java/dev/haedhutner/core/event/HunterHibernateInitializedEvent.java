@@ -8,9 +8,9 @@ import javax.persistence.EntityManagerFactory;
 
 public class HunterHibernateInitializedEvent implements Event {
 
-    private Cause cause;
+    private final Cause cause;
 
-    private EntityManagerFactory entityManagerFactory;
+    private final EntityManagerFactory entityManagerFactory;
 
     public HunterHibernateInitializedEvent(EntityManagerFactory entityManagerFactory) {
         this.cause = Cause.builder().append(entityManagerFactory).build(Sponge.getCauseStackManager().getCurrentContext());
