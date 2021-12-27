@@ -7,6 +7,7 @@ import dev.haedhutner.skills.api.exception.CastException;
 import dev.haedhutner.skills.api.skill.CastErrors;
 import dev.haedhutner.skills.api.skill.CastResult;
 import dev.haedhutner.skills.api.skill.TargetedSkill;
+import dev.haedhutner.skills.service.EffectService;
 import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.event.cause.entity.damage.source.DamageSources;
 import org.spongepowered.api.text.Text;
@@ -77,7 +78,7 @@ public class SimpleDamageEffectSkill extends TargetedSkill {
         }
 
         PeriodicSimpleDamageEffect effect = new PeriodicSimpleDamageEffect(1000, ticks, damage);
-        HunterCore.getInstance().getSkillsModule().getEffectService().applyEffect(target, effect);
+        HunterCore.getInstance(EffectService.class).applyEffect(target, effect);
 
         return CastResult.success();
     }

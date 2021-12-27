@@ -1,6 +1,7 @@
 package dev.haedhutner.core;
 
 import com.google.common.reflect.TypeToken;
+import com.google.inject.Injector;
 import dev.haedhutner.chat.ChatModule;
 import dev.haedhutner.core.combat.CombatLog;
 import dev.haedhutner.core.db.DatabaseContext;
@@ -64,6 +65,9 @@ public class HunterCore {
 
     @Inject
     SkillsModule skillsModule;
+
+    @Inject
+    Injector injector;
 
     private EconomyService economyService;
 
@@ -173,8 +177,16 @@ public class HunterCore {
         return getInstance().coreConfig;
     }
 
+    public Injector getInjector() {
+        return injector;
+    }
+
     public static HunterCore getInstance() {
         return instance;
+    }
+
+    public static <T> T getInstance(Class<T> clazz) {
+        return getInstance().getInjector().getInstance(clazz);
     }
 
     public static EntityManagerFactory getEntityManagerFactory() {
