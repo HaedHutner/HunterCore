@@ -6,7 +6,7 @@ import dev.haedhutner.core.command.PlayerCommand;
 import dev.haedhutner.core.command.annotation.Aliases;
 import dev.haedhutner.core.command.annotation.Description;
 import dev.haedhutner.core.command.annotation.Permission;
-import dev.haedhutner.core.utils.UserElement;
+import dev.haedhutner.core.command.UserElement;
 import dev.haedhutner.parties.facade.PartyFacade;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;

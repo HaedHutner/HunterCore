@@ -1,6 +1,6 @@
 package dev.haedhutner.core.serialize;
 
-import dev.haedhutner.core.utils.TimeUtils;
+import dev.haedhutner.core.utils.CoreUtils;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
@@ -18,11 +18,11 @@ public class DurationTypeSerializer implements TypeSerializer<Duration> {
             throw new ObjectMappingException("Cannot parse Duration: Is either null or empty string.");
         }
 
-        return TimeUtils.stringToDuration(val);
+        return CoreUtils.convertStringToDuration(val);
     }
 
     @Override
     public void serialize(TypeToken<?> type, Duration obj, ConfigurationNode value) throws ObjectMappingException {
-        value.setValue(TimeUtils.durationToString(obj));
+        value.setValue(CoreUtils.convertDurationToString(obj));
     }
 }

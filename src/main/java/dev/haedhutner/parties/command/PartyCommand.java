@@ -3,7 +3,6 @@ package dev.haedhutner.parties.command;
 import com.google.inject.Inject;
 import dev.haedhutner.core.command.PlayerCommand;
 import dev.haedhutner.core.command.annotation.Aliases;
-import dev.haedhutner.core.command.annotation.Children;
 import dev.haedhutner.core.command.annotation.HelpCommand;
 import dev.haedhutner.core.command.annotation.Permission;
 import dev.haedhutner.parties.facade.PartyFacade;
@@ -15,14 +14,6 @@ import org.spongepowered.api.entity.living.player.Player;
 import javax.annotation.Nonnull;
 
 @Aliases("party")
-@Children({
-        PartyInviteCommand.class,
-        PartyKickCommand.class,
-        PartyLeaderCommand.class,
-        PartyLeaveCommand.class,
-        PartyDisbandCommand.class,
-        PartyPvpCommand.class
-})
 @HelpCommand(title = "Party Help", command = "help")
 @Permission("hunterparties.party")
 public class PartyCommand implements PlayerCommand {

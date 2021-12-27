@@ -7,7 +7,7 @@ import java.util.Optional;
  * Intended for methods which need to inform their callers of the state of their execution, whether it is successful
  * or not, and to provide a result in case of a success.
  */
-public class OperationResult<T> extends SimpleOperationResult{
+public class OperationResult<T> extends SimpleOperationResult {
 
     private final T result;
 

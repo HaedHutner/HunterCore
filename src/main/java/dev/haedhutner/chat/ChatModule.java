@@ -15,11 +15,14 @@ import dev.haedhutner.chat.service.ChatService;
 import dev.haedhutner.core.command.CommandService;
 import dev.haedhutner.core.module.AbstractPluginModule;
 import dev.haedhutner.core.module.ModuleResult;
+import dev.haedhutner.core.module.config.ModuleConfiguration;
+import dev.haedhutner.skills.SkillsConfig;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.plugin.PluginContainer;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Singleton
 public class ChatModule extends AbstractPluginModule {
@@ -30,28 +33,19 @@ public class ChatModule extends AbstractPluginModule {
     private Logger logger;
 
     @Inject
-    private ChatConfig chatConfig;
-
-    @Inject
-    private ChannelFacade channelFacade;
-
-    @Inject
-    private ChatMessagingFacade chatMessagingFacade;
-
-    @Inject
-    private ChatChannelFactory chatChannelFactory;
-
-    @Inject
-    private ChatService chatService;
-
-    @Inject
     private Injector injector;
+
+    @Inject
+    private ChatConfig config;
 
     @Inject
     private PlayerListener playerListener;
 
     @Inject
     private CommandService commandService;
+
+    @Inject
+    private ChatCommand chatCommand;
 
     @Inject
     public ChatModule(PluginContainer plugin) {
@@ -69,44 +63,16 @@ public class ChatModule extends AbstractPluginModule {
             // is this necessary? is the chat service used anywhere from the service manager?
             //Sponge.getServiceManager().setProvider(container, ChatService.class, components.chatService);
 
-            chatConfig.init(getPlugin(), this);
-
             // Register listeners
             Sponge.getEventManager().registerListeners(getPlugin(), playerListener);
 
             try {
-                commandService.register(new ChatCommand(), getPlugin());
+                commandService.register(chatCommand, getPlugin());
             } catch (CommandService.AnnotatedCommandException e) {
                 e.printStackTrace();
             }
 
-            for (Map.Entry<String, ChannelConfig> entry : chatConfig.CHANNELS.entrySet()) {
-                String id = entry.getKey();
-                ChannelConfig channelConfig = entry.getValue();
-                ChatChannel channel;
-
-                switch (channelConfig.type) {
-                    case BROADCAST:
-                        channel = chatChannelFactory.createBroadcastChannel(id, channelConfig);
-                        break;
-                    case GLOBAL:
-                        channel = chatChannelFactory.createGlobalChannel(id, channelConfig);
-                        break;
-                    case WORLD:
-                        channel = chatChannelFactory.createWorldChannel(id, channelConfig);
-                        break;
-                    case RANGE:
-                        channel = chatChannelFactory.createRangeChannel(id, channelConfig);
-                        break;
-                    default:
-                        logger.error("Unknown Channel type: " + channelConfig.type + " for channel" + id);
-                        channel = chatChannelFactory.createGlobalChannel(id, channelConfig);
-                }
-
-                chatService.registerChannel(channel);
-            }
-
-            chatService.setDefaultChannel(chatConfig.DEFAULT_CHANNEL);
+            getChannelFacade().registerChannels();
 
             return ModuleResult.success(this, "Successfully Initialized");
         });
@@ -114,10 +80,7 @@ public class ChatModule extends AbstractPluginModule {
 
     @Override
     public ModuleResult start() {
-        return ModuleResult.of(this, () -> {
-            setStarted(true);
-            return ModuleResult.success(this, "Successfully started");
-        });
+        return ModuleResult.success(this, "Successfully started");
     }
 
     @Override
@@ -125,19 +88,28 @@ public class ChatModule extends AbstractPluginModule {
         return ModuleResult.success(this, "Successfully stopped");
     }
 
+    @Override
+    public Optional<ModuleConfiguration> getConfiguration() {
+        return Optional.of(config);
+    }
+
+    public ChatConfig getConfig() {
+        return config;
+    }
+
     public ChannelFacade getChannelFacade() {
-        return channelFacade;
+        return injector.getInstance(ChannelFacade.class);
     }
 
     public ChatMessagingFacade getChatMessagingFacade() {
-        return chatMessagingFacade;
+        return injector.getInstance(ChatMessagingFacade.class);
     }
 
     public ChatChannelFactory getChatChannelFactory() {
-        return chatChannelFactory;
+        return injector.getInstance(ChatChannelFactory.class);
     }
 
     public ChatService getChatService() {
-        return chatService;
+        return injector.getInstance(ChatService.class);
     }
 }

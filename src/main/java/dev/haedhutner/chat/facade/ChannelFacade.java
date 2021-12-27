@@ -2,9 +2,13 @@ package dev.haedhutner.chat.facade;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import dev.haedhutner.chat.config.ChannelConfig;
+import dev.haedhutner.chat.config.ChatConfig;
 import dev.haedhutner.chat.exception.HunterChatException;
 import dev.haedhutner.chat.model.ChatChannel;
+import dev.haedhutner.chat.service.ChatChannelFactory;
 import dev.haedhutner.chat.service.ChatService;
+import org.slf4j.Logger;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.message.MessageChannelEvent;
@@ -13,11 +17,21 @@ import org.spongepowered.api.text.chat.ChatTypes;
 import org.spongepowered.api.text.format.TextColors;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Singleton
 public final class ChannelFacade {
+
+    @Inject
+    private Logger logger;
+
+    @Inject
+    private ChatConfig chatConfig;
+
+    @Inject
+    private ChatChannelFactory chatChannelFactory;
 
     @Inject
     private ChatService chatService;
@@ -26,6 +40,36 @@ public final class ChannelFacade {
     private ChatMessagingFacade cmf;
 
     public ChannelFacade() {
+    }
+
+    public void registerChannels() {
+        for (Map.Entry<String, ChannelConfig> entry : chatConfig.CHANNELS.entrySet()) {
+            String id = entry.getKey();
+            ChannelConfig channelConfig = entry.getValue();
+            ChatChannel channel;
+
+            switch (channelConfig.type) {
+                case BROADCAST:
+                    channel = chatChannelFactory.createBroadcastChannel(id, channelConfig);
+                    break;
+                case GLOBAL:
+                    channel = chatChannelFactory.createGlobalChannel(id, channelConfig);
+                    break;
+                case WORLD:
+                    channel = chatChannelFactory.createWorldChannel(id, channelConfig);
+                    break;
+                case RANGE:
+                    channel = chatChannelFactory.createRangeChannel(id, channelConfig);
+                    break;
+                default:
+                    logger.error("Unknown Channel type: " + channelConfig.type + " for channel" + id);
+                    channel = chatChannelFactory.createGlobalChannel(id, channelConfig);
+            }
+
+            chatService.registerChannel(channel);
+        }
+
+        chatService.setDefaultChannel(chatConfig.DEFAULT_CHANNEL);
     }
 
     public void onPlayerJoin(Player player) {

@@ -1,18 +1,17 @@
 package dev.haedhutner.core;
 
-import com.google.inject.Injector;
 import dev.haedhutner.chat.ChatModule;
 import dev.haedhutner.core.combat.CombatLog;
-import dev.haedhutner.core.command.CommandService;
 import dev.haedhutner.core.db.DatabaseContext;
 import dev.haedhutner.core.event.HunterHibernateInitializedEvent;
 import dev.haedhutner.core.module.ModuleEngine;
 import dev.haedhutner.core.module.ModuleRegistrationEvent;
 import dev.haedhutner.core.serialize.DurationTypeSerializer;
-import dev.haedhutner.core.utils.EntityUtils;
+import dev.haedhutner.core.utils.CoreUtils;
 import com.google.common.reflect.TypeToken;
 import dev.haedhutner.core.utils.SimpleOperationResult;
 import dev.haedhutner.parties.PartiesModule;
+import dev.haedhutner.skills.SkillsModule;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
@@ -27,7 +26,6 @@ import org.spongepowered.api.event.filter.Getter;
 import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.event.game.state.*;
 import org.spongepowered.api.plugin.Plugin;
-import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.economy.EconomyService;
 
 import javax.inject.Inject;
@@ -53,12 +51,6 @@ public class HunterCore {
     Logger logger;
 
     @Inject
-    PluginContainer container;
-
-    @Inject
-    Injector injector;
-
-    @Inject
     CoreConfig coreConfig;
 
     @Inject
@@ -66,6 +58,9 @@ public class HunterCore {
 
     @Inject
     PartiesModule partiesModule;
+
+    @Inject
+    SkillsModule skillsModule;
 
     private EconomyService economyService;
 
@@ -107,7 +102,11 @@ public class HunterCore {
 
     @Listener
     public void onModuleRegistration(ModuleRegistrationEvent event) {
-        event.registerModules(chatModule, partiesModule);
+        event.registerModules(
+                chatModule,
+                partiesModule,
+                skillsModule
+        );
     }
 
     @Listener
@@ -130,7 +129,7 @@ public class HunterCore {
 
     @Listener
     public void onPlayerDamage(DamageEntityEvent event, @Root EntityDamageSource source, @Getter("getTargetEntity") Player victim) {
-        Entity rootEntity = EntityUtils.getRootEntity(source);
+        Entity rootEntity = CoreUtils.damageFetchRootEntity(source);
 
         if (!(rootEntity instanceof Player)) {
             return;
@@ -150,6 +149,10 @@ public class HunterCore {
 
     public ChatModule getChatModule() {
         return chatModule;
+    }
+
+    public SkillsModule getSkillsModule() {
+        return skillsModule;
     }
 
     public PartiesModule getPartiesModule() {

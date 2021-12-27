@@ -4,6 +4,8 @@ import com.google.inject.Singleton;
 import dev.haedhutner.chat.ChatModule;
 import dev.haedhutner.core.db.JPAConfig;
 import dev.haedhutner.core.utils.PluginConfig;
+import dev.haedhutner.parties.PartiesModule;
+import dev.haedhutner.skills.SkillsModule;
 import ninja.leaping.configurate.objectmapping.Setting;
 
 import java.io.IOException;
@@ -28,6 +30,8 @@ public class CoreConfig extends PluginConfig {
     @Setting("modules")
     public Map<String, Boolean> MODULES = new HashMap<String, Boolean>() {{
         put(ChatModule.ID, false);
+        put(PartiesModule.ID, false);
+        put(SkillsModule.ID, false);
     }};
 
     protected CoreConfig() throws IOException {

@@ -1,7 +1,7 @@
 package dev.haedhutner.parties.service;
 
 import com.google.inject.Singleton;
-import dev.haedhutner.core.utils.UserUtils;
+import dev.haedhutner.core.utils.CoreUtils;
 import dev.haedhutner.parties.data.PartyData;
 import dev.haedhutner.parties.entity.Party;
 import org.apache.commons.lang3.RandomUtils;
@@ -79,7 +79,7 @@ public final class PartyService {
      */
     public Collection<User> getPartyMembers(Party party) {
         return party.getMembers().stream()
-                .map(UserUtils::getUser)
+                .map(CoreUtils::userSearchByUuid)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toSet());

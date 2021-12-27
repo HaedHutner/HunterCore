@@ -1,4 +1,4 @@
-package dev.haedhutner.core.utils;
+package dev.haedhutner.core.command;
 
 import com.google.common.collect.ImmutableMap;
 import org.spongepowered.api.Sponge;

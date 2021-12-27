@@ -7,6 +7,7 @@ import dev.haedhutner.chat.event.ChatChannelRegistrationEvent;
 import dev.haedhutner.core.command.CommandService;
 import dev.haedhutner.core.module.AbstractPluginModule;
 import dev.haedhutner.core.module.ModuleResult;
+import dev.haedhutner.core.module.config.ModuleConfiguration;
 import dev.haedhutner.parties.command.PartyCommand;
 import dev.haedhutner.parties.data.PartyData;
 import dev.haedhutner.parties.data.PartyKeys;
@@ -19,9 +20,12 @@ import org.spongepowered.api.data.DataRegistration;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.plugin.PluginContainer;
 
+import java.util.Optional;
+
 @Singleton
 public class PartiesModule extends AbstractPluginModule {
 
+    public static final String ID = "parties";
     @Inject
     private PartyFacade partyFacade;
 
@@ -77,8 +81,6 @@ public class PartiesModule extends AbstractPluginModule {
                 e.printStackTrace();
             }
 
-            setStarted(true);
-
             return ModuleResult.success(this, "Successfully started");
         });
     }
@@ -86,6 +88,11 @@ public class PartiesModule extends AbstractPluginModule {
     @Override
     public ModuleResult stop() {
         return ModuleResult.success(this, "Successfully stopped");
+    }
+
+    @Override
+    public Optional<ModuleConfiguration> getConfiguration() {
+        return Optional.empty();
     }
 
     @Listener

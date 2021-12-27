@@ -1,6 +1,7 @@
 package dev.haedhutner.core.module;
 
 import com.google.inject.Injector;
+import dev.haedhutner.core.utils.PluginConfig;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
@@ -47,6 +48,7 @@ public final class ModuleEngine {
                 .map(pm -> {
                     logger.info("Initializing module " + pm.getName() + "...");
 
+                    pm.getConfiguration().ifPresent(PluginConfig::init);
                     ModuleResult result = ModuleResult.of(pm, pm::init);
 
                     if (!result.isSuccess()) {
@@ -78,6 +80,11 @@ public final class ModuleEngine {
                 result.getException().ifPresent(e -> logger.error(ExceptionUtils.getStackTrace(e)));
             }
 
+            if (pm instanceof AbstractPluginModule) {
+                ((AbstractPluginModule) pm).setStarted(true);
+                ((AbstractPluginModule) pm).setShutdown(false);
+            }
+
             return result;
         }).collect(Collectors.toSet());
     }
@@ -92,6 +99,11 @@ public final class ModuleEngine {
             if (!result.isSuccess()) {
                 logger.error("An error occurred while stopping module " + pm.getName() + ": " + result.getMessage().orElse("Unknown Reason"));
                 result.getException().ifPresent(e -> logger.error(ExceptionUtils.getStackTrace(e)));
+            }
+
+            if (pm instanceof AbstractPluginModule) {
+                ((AbstractPluginModule) pm).setStarted(false);
+                ((AbstractPluginModule) pm).setShutdown(true);
             }
 
             return result;

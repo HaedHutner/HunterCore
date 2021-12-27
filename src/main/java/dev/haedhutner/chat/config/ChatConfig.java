@@ -1,8 +1,11 @@
 package dev.haedhutner.chat.config;
 
+import com.google.inject.Inject;
+import dev.haedhutner.chat.ChatModule;
 import dev.haedhutner.chat.model.ChannelType;
 import dev.haedhutner.core.module.config.ModuleConfiguration;
 import ninja.leaping.configurate.objectmapping.Setting;
+import org.spongepowered.api.plugin.PluginContainer;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -46,6 +49,8 @@ public class ChatConfig extends ModuleConfiguration {
         AUTO_JOIN_CHANNELS.add("local");
     }
 
-    public ChatConfig() {
+    @Inject
+    protected ChatConfig(PluginContainer plugin) {
+        super(plugin, ChatModule.ID);
     }
 }

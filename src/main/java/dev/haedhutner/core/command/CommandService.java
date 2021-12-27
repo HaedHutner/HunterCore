@@ -1,7 +1,5 @@
 package dev.haedhutner.core.command;
 
-import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import dev.haedhutner.core.command.annotation.*;
 import org.spongepowered.api.Sponge;
@@ -23,15 +21,10 @@ import java.util.stream.Collectors;
 @Singleton
 public final class CommandService {
 
-    private Injector injector;
-
-    @Inject
-    public CommandService(Injector injector) {
-        this.injector = injector;
+    public CommandService() {
     }
 
     public <T extends CommandExecutor> void register(T executor, Object plugin) throws AnnotatedCommandException {
-        injector.injectMembers(executor);
         Command command = buildCommandSpec(executor);
         Sponge.getCommandManager().register(plugin, command.getSpec(), command.getAliases());
     }
@@ -57,25 +50,14 @@ public final class CommandService {
 
         List<Command> children = new ArrayList<>();
         // set children
-        if (commandClass.isAnnotationPresent(Children.class)) {
+        if (command instanceof ParentCommand) {
             // if a parent command is also parameterized, throw exception
             if (command instanceof ParameterizedCommand) {
                 throw AnnotatedCommandException.parentParameterizedCommand(commandClass);
             }
 
-            Class<? extends CommandExecutor>[] childCommandClasses = commandClass.getAnnotation(Children.class).value();
-
-            for (Class<? extends CommandExecutor> child : childCommandClasses) {
-                Command childSpec;
-                // instantiate the child command
-                try {
-                    CommandExecutor childExecutor = child.newInstance();
-                    injector.injectMembers(childExecutor);
-                    childSpec = buildCommandSpec(childExecutor);
-                } catch (InstantiationException | IllegalAccessException e) {
-                    throw AnnotatedCommandException.childInstantiation(child);
-                }
-
+            for (CommandExecutor child : ((ParentCommand) command).getChildren()) {
+                Command childSpec = buildCommandSpec(child);
                 spec.child(childSpec.getSpec(), childSpec.getAliases());
                 children.add(childSpec);
             }
@@ -237,12 +219,6 @@ public final class CommandService {
         public static AnnotatedCommandException emptyAlias(Class<?> commandClass) {
             return new AnnotatedCommandException(
                     "The " + commandClass.getName() + " class is annotated with an empty alias.");
-        }
-
-        public static AnnotatedCommandException childInstantiation(Class<?> commandClass) {
-            return new AnnotatedCommandException(
-                    "Failed to instantiate the " + commandClass.getName()
-                            + " class. Ensure this class has an accessible no-args constructor available.");
         }
 
         public static AnnotatedCommandException parentParameterizedCommand(Class<?> commandClass) {

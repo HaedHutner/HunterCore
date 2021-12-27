@@ -4,6 +4,7 @@ import dev.haedhutner.core.module.config.ModuleConfiguration;
 import org.spongepowered.api.plugin.PluginContainer;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public interface PluginModule {
 
@@ -28,4 +29,6 @@ public interface PluginModule {
     ModuleResult start();
 
     ModuleResult stop();
+
+    Optional<ModuleConfiguration> getConfiguration();
 }

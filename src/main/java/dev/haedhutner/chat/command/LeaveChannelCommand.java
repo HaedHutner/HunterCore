@@ -2,6 +2,7 @@ package dev.haedhutner.chat.command;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import dev.haedhutner.chat.facade.ChannelFacade;
 import dev.haedhutner.chat.model.ChatChannel;
 import dev.haedhutner.core.command.ParameterizedCommand;
@@ -21,6 +22,7 @@ import javax.annotation.Nonnull;
 @Aliases("leave")
 @Description("Leaves a chat channel.")
 @Permission("hunterchat.commands.leave")
+@Singleton
 public class LeaveChannelCommand implements PlayerCommand, ParameterizedCommand {
 
     @Inject

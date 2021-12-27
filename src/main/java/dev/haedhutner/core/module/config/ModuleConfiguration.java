@@ -5,7 +5,6 @@ import dev.haedhutner.core.utils.PluginConfig;
 import dev.haedhutner.core.utils.SimpleOperationResult;
 import org.spongepowered.api.plugin.PluginContainer;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -16,15 +15,14 @@ public class ModuleConfiguration extends PluginConfig {
     }
 
     protected ModuleConfiguration(PluginContainer plugin, PluginModule module) {
-        super(determineFilePath(plugin, module));
+        super(determineFilePath(plugin, module.getId()));
     }
 
-    public SimpleOperationResult init(PluginContainer plugin, PluginModule module) {
-        super.filePath = determineFilePath(plugin, module);
-        return super.init();
+    protected ModuleConfiguration(PluginContainer plugin, String moduleId) {
+        super(determineFilePath(plugin, moduleId));
     }
 
-    private static Path determineFilePath(PluginContainer plugin, PluginModule module) {
-        return Paths.get(".", "config", plugin.getId(), "modules", module.getId() + ".conf");
+    private static Path determineFilePath(PluginContainer plugin, String moduleId) {
+        return Paths.get(".", "config", plugin.getId(), "modules", moduleId + ".conf");
     }
 }
