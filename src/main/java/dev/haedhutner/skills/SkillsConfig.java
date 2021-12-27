@@ -32,12 +32,14 @@ public class SkillsConfig extends ModuleConfiguration {
     @Setting("global-cooldown")
     public long GLOBAL_COOLDOWN = 500;
 
+    // Requires Restart
     @Setting("resource-regen-interval-ticks")
     public int RESOURCE_REGEN_TICK_INTERVAL = 20;
 
     @Setting("resource-regen-rate")
     public double RESOURCE_REGEN_RATE = 5;
 
+    // Requires Restart
     @Setting("resource-limit")
     public double RESOURCE_LIMIT = 100.0d;
 
@@ -55,6 +57,9 @@ public class SkillsConfig extends ModuleConfiguration {
 
     @Setting("resource-symbol-empty")
     public String RESOURCE_SYMBOL_EMPTY = "▒";
+
+    @Setting("resource-max-symbols")
+    public int RESOURCE_MAX_SYMBOLS = 10;
 
     @Setting("passable-blocks")
     public Set<String> PASSABLE_BLOCKS = DEFAULT_PASSABLE_BLOCKS;

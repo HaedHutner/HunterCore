@@ -1,5 +1,7 @@
 package dev.haedhutner.core.module;
 
+import dev.haedhutner.core.module.config.ModuleConfiguration;
+import dev.haedhutner.core.utils.SimpleOperationResult;
 import org.spongepowered.api.plugin.PluginContainer;
 
 public abstract class AbstractPluginModule implements PluginModule {
@@ -59,6 +61,19 @@ public abstract class AbstractPluginModule implements PluginModule {
     @Override
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    @Override
+    public ModuleResult reload() {
+        return getConfiguration().map(c -> {
+            SimpleOperationResult result = c.reload();
+
+            if (!result.isSuccess()) {
+                return ModuleResult.failure(this, result.getMessage().orElse(null), result.getException().orElse(null));
+            }
+
+            return ModuleResult.success(this);
+        }).orElse(ModuleResult.success(this, "No configuration found for reloading"));
     }
 
     protected void setStarted(boolean started) {

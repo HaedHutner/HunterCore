@@ -60,15 +60,16 @@ public class SimpleDamageEffectSkill extends TargetedSkill {
             throw CastErrors.invalidArguments();
         }
 
-        double damage;
-        int ticks;
+        double damage = defaultDamage;
+        int ticks = defaultDuration;
 
         try {
             damage = Double.parseDouble(args[0]);
-            ticks = Integer.parseInt(args[1]);
-        } catch (NumberFormatException e) {
-            damage = defaultDamage;
-            ticks = defaultDuration;
+
+            if (args.length > 1) {
+                ticks = Integer.parseInt(args[1]);
+            }
+        } catch (NumberFormatException ignored) {
         }
 
         if (user instanceof MessageReceiver) {
@@ -83,12 +84,12 @@ public class SimpleDamageEffectSkill extends TargetedSkill {
 
     @Override
     public long getCooldown(Living user) {
-        return 8000;
+        return 5000;
     }
 
     @Override
     public double getResourceCost(Living user) {
-        return 25.0;
+        return 50.0;
     }
 
 }

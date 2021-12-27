@@ -8,12 +8,14 @@ import dev.haedhutner.core.module.AbstractPluginModule;
 import dev.haedhutner.core.module.ModuleResult;
 import dev.haedhutner.core.module.PluginModule;
 import dev.haedhutner.core.module.config.ModuleConfiguration;
+import dev.haedhutner.core.utils.SimpleOperationResult;
 import dev.haedhutner.skills.api.skill.Castable;
 import dev.haedhutner.skills.command.effect.EffectCommand;
 import dev.haedhutner.skills.command.skill.SkillCommand;
 import dev.haedhutner.skills.event.EffectRegistrationEvent;
 import dev.haedhutner.skills.event.SkillRegistrationEvent;
 import dev.haedhutner.skills.facade.EffectFacade;
+import dev.haedhutner.skills.facade.ResourceFacade;
 import dev.haedhutner.skills.facade.SkillFacade;
 import dev.haedhutner.skills.facade.SkillMessagingFacade;
 import dev.haedhutner.skills.listener.EntityListener;
@@ -27,7 +29,6 @@ import dev.haedhutner.skills.skill.SimpleDamageSkill;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.game.GameRegistryEvent;
 import org.spongepowered.api.plugin.PluginContainer;
 
 import java.util.Optional;
@@ -44,10 +45,14 @@ public class SkillsModule extends AbstractPluginModule {
     private SkillsConfig config;
 
     @Inject
+    private ResourceFacade resourceFacade;
+
+    @Inject
     private EntityListener entityListener;
 
     @Inject
     private ResourceListener resourceListener;
+
     @Inject
     private CommandService commandService;
 
@@ -95,6 +100,21 @@ public class SkillsModule extends AbstractPluginModule {
     @Override
     public ModuleResult stop() {
         return ModuleResult.success(this, "Successfully stopped");
+    }
+
+    @Override
+    public ModuleResult reload() {
+        return ModuleResult.of(this, () -> {
+            SimpleOperationResult result = config.reload();
+
+            if (!result.isSuccess()) {
+                return ModuleResult.failure(this, result.getMessage().orElse(null), result.getException().orElse(null));
+            }
+
+            resourceFacade.generateResourceBars();
+
+            return ModuleResult.success(this);
+        });
     }
 
     @Override

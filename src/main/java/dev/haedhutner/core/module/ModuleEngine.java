@@ -110,6 +110,21 @@ public final class ModuleEngine {
         }).collect(Collectors.toSet());
     }
 
+    public Set<ModuleResult> reloadModules() {
+        return getStartedModules().stream().map(pm -> {
+            logger.info("Reloading module " + pm.getName() + "...");
+
+            ModuleResult result = pm.reload();
+
+            if (!result.isSuccess()) {
+                logger.error("An error occurred while reloading module " + pm.getName() + ": " + result.getMessage().orElse("Unknown Reason"));
+                result.getException().ifPresent(e -> logger.error(ExceptionUtils.getStackTrace(e)));
+            }
+
+            return result;
+        }).collect(Collectors.toSet());
+    }
+
     private Set<PluginModule> getEnabledModules() {
         return this.modules.stream().filter(PluginModule::isEnabled).collect(Collectors.toSet());
     }

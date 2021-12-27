@@ -1,5 +1,6 @@
 package dev.haedhutner.core.utils;
 
+import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -92,7 +93,7 @@ public abstract class PluginConfig {
             Files.createDirectories(filePath.getParent());
             Files.createFile(filePath);
 
-            SimpleConfigurationNode out = SimpleConfigurationNode.root();
+            ConfigurationNode out = ConfigurationNode.root();
             this.configMapper.serialize(out);
             this.loader.save(out);
         } catch (FileAlreadyExistsException e) {
@@ -102,5 +103,15 @@ public abstract class PluginConfig {
         }
 
         return new SimpleOperationResult(true, null, null);
+    }
+
+    /**
+     * Reload the configuration. If there are any changes to the config file,
+     * they will be loaded and override the values in the current object.
+     * This is equivalent to calling <code>load()</code>
+     * @return Whether (re)loading was successful or not
+     */
+    public SimpleOperationResult reload() {
+        return this.load();
     }
 }

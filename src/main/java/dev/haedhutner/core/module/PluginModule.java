@@ -30,5 +30,7 @@ public interface PluginModule {
 
     ModuleResult stop();
 
+    ModuleResult reload();
+
     Optional<ModuleConfiguration> getConfiguration();
 }

@@ -46,7 +46,7 @@ public class SimpleDamageSkill extends TargetedSkill {
 
     @Override
     public long getCooldown(Living user) {
-        return 6000;
+        return 5000;
     }
 
     @Override

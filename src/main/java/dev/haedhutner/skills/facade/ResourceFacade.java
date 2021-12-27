@@ -48,7 +48,7 @@ public class ResourceFacade {
             player.ifPresent(p -> {
                 int amount = (int) (event.getRegenAmount() + user.getCurrent());
                 amount = amount < user.getMax() ? amount : (int) user.getMax();
-                int resourceLevel = (int) ((amount / user.getMax()) * 10);
+                int resourceLevel = (int) ((amount / user.getMax()) * config.RESOURCE_MAX_SYMBOLS);
 
                 Text display = Text.of(resourceBars.get(resourceLevel), " ", config.RESOURCE_COLOR_FULL, amount, "/", (int) user.getMax(), " ", config.RESOURCE_NAME);
                 p.sendTitle(Title.builder().title(Text.EMPTY).subtitle(Text.EMPTY).actionBar(display).fadeOut(100).build());
@@ -60,24 +60,18 @@ public class ResourceFacade {
         resourceService.getOrCreateUser(player);
     }
 
-    private void generateResourceBars() {
-        resourceBars = ImmutableMap.<Integer, Text>builder()
-                .put(MAX_NUMBER_BARS - 10, barLevel(MAX_NUMBER_BARS - 10))
-                .put(MAX_NUMBER_BARS - 9, barLevel(MAX_NUMBER_BARS - 9))
-                .put(MAX_NUMBER_BARS - 8, barLevel(MAX_NUMBER_BARS - 8))
-                .put(MAX_NUMBER_BARS - 7, barLevel(MAX_NUMBER_BARS - 7))
-                .put(MAX_NUMBER_BARS - 6, barLevel(MAX_NUMBER_BARS - 6))
-                .put(MAX_NUMBER_BARS - 5, barLevel(MAX_NUMBER_BARS - 5))
-                .put(MAX_NUMBER_BARS - 4, barLevel(MAX_NUMBER_BARS - 4))
-                .put(MAX_NUMBER_BARS - 3, barLevel(MAX_NUMBER_BARS - 3))
-                .put(MAX_NUMBER_BARS - 2, barLevel(MAX_NUMBER_BARS - 2))
-                .put(MAX_NUMBER_BARS - 1, barLevel(MAX_NUMBER_BARS - 1))
-                .put(MAX_NUMBER_BARS, barLevel(MAX_NUMBER_BARS))
-                .build();
+    public void generateResourceBars() {
+        ImmutableMap.Builder<Integer, Text> builder = ImmutableMap.builder();
+
+        for (int i = 0; i <= config.RESOURCE_MAX_SYMBOLS; i++) {
+            builder.put(config.RESOURCE_MAX_SYMBOLS - i, barLevel(config.RESOURCE_MAX_SYMBOLS - i));
+        }
+
+        resourceBars = builder.build();
     }
 
     private Text barLevel(int level) {
-        int numberOfEmptyBars = MAX_NUMBER_BARS - level;
+        int numberOfEmptyBars = config.RESOURCE_MAX_SYMBOLS - level;
 
         Text fullBars = Text.of(config.RESOURCE_COLOR_FULL, String.join("", Collections.nCopies(level, config.RESOURCE_SYMBOL_FULL)));
         Text emptyBars = Text.of(config.RESOURCE_COLOR_EMPTY, String.join("", Collections.nCopies(numberOfEmptyBars, config.RESOURCE_SYMBOL_EMPTY)));

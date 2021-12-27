@@ -16,6 +16,7 @@ import dev.haedhutner.core.command.CommandService;
 import dev.haedhutner.core.module.AbstractPluginModule;
 import dev.haedhutner.core.module.ModuleResult;
 import dev.haedhutner.core.module.config.ModuleConfiguration;
+import dev.haedhutner.core.utils.SimpleOperationResult;
 import dev.haedhutner.skills.SkillsConfig;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;

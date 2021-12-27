@@ -24,6 +24,10 @@ public class ModuleResult extends SimpleOperationResult {
         return new ModuleResult(module, true, message, null);
     }
 
+    public static ModuleResult success(PluginModule module) {
+        return new ModuleResult(module, true, "Success", null);
+    }
+
     public ModuleResult(PluginModule module, boolean success, String message, Exception exception) {
         super(success, message, exception);
         this.module = module;

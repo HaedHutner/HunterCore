@@ -24,6 +24,7 @@ import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.event.filter.Getter;
 import org.spongepowered.api.event.filter.cause.Root;
+import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.*;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.service.economy.EconomyService;
@@ -136,6 +137,13 @@ public class HunterCore {
         }
 
         combatLog.initiateCombat((Player) rootEntity, victim);
+    }
+
+    @Listener
+    public void onReload(GameReloadEvent event) {
+        if (init) {
+            coreModuleEngine.reloadModules();
+        }
     }
 
     @Listener
