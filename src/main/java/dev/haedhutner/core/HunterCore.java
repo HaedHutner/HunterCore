@@ -185,7 +185,6 @@ public class HunterCore {
         return instance;
     }
 
-    // Test Jenkins Snapshot Build
     public static <T> T getInstance(Class<T> clazz) {
         return getInstance().getInjector().getInstance(clazz);
     }
