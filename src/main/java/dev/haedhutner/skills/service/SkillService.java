@@ -103,12 +103,10 @@ public class SkillService {
     }
 
     private boolean validateSkillUse(Living user, Castable castable, long timestamp) throws CastException {
-        boolean valid = validatePermission(user, castable);
-        valid = valid && validateGlobalCooldown(user, timestamp);
-        valid = valid && validateCooldown(user, castable, timestamp);
-        valid = valid && validateResources(user, castable);
-
-        return valid;
+        return validatePermission(user, castable) &&
+               validateGlobalCooldown(user, timestamp) &&
+               validateCooldown(user, castable, timestamp) &&
+               validateResources(user, castable);
     }
 
     private boolean validatePermission(Living user, Castable skill) throws CastException {
