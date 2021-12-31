@@ -16,10 +16,16 @@ import java.util.function.Predicate;
 
 public class CachedHibernateRepository<T extends Identifiable<ID>, ID extends Serializable> extends HibernateRepository<T, ID> {
 
-    protected Cache<T, ID> cache = new SimpleCache<>();
+    protected Cache<T, ID> cache;
+
+    public CachedHibernateRepository(Class<T> persistable, Cache<T, ID> cache) {
+        super(persistable);
+        this.cache = cache;
+    }
 
     public CachedHibernateRepository(Class<T> persistable) {
         super(persistable);
+        this.cache = new SimpleCache<>();
     }
 
     @Override
